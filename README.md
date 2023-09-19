@@ -106,7 +106,6 @@ WIP
 
 Contributors names and contact info
 
-ex. Dominique Pizzie  
 ex. [@Softknife](https://www.linkedin.com/in/alexander-matsaylo-3282649/)
 
 ## Version History
