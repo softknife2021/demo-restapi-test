@@ -90,9 +90,9 @@ Supports:
 * git clone <this project>
 
 ### Executing program
-* To execute framework run the following command
+* To execute framework run the following command from the root of the project
 ```
- gradle clean build  demoTest -DDEMO_DEPLOY_ENV=int -DTEST_XML=demo-restapi-test
+ ./gradlew clean build  demoTest -DDEMO_DEPLOY_ENV=int -DTEST_XML=demo-restapi-test
 ```
 
 ## Help
