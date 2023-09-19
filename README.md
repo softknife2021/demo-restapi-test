@@ -110,7 +110,7 @@ ex. [@Softknife](https://www.linkedin.com/in/alexander-matsaylo-3282649/)
 
 ## Version History
 
-* 0.1.0
+* 0.0.1
     * Initial Release
 
 ## License
