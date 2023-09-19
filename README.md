@@ -8,10 +8,11 @@ the readme file and provide code examples, but if not, I will implement them if 
 ## Description
 
 This is java based project using solid industry prove testNG framework. Project uses public petstore restapi
-to demonstrate its ability to interact with service APIs running over http api such as
+to demonstrate its ability to interact with web service interfaces, running over http api such as
 rest api graphQL.
+
 Supports:
-* Integration with test rail test case management system
+* Integration with test rail test case management system setup
   * Uncomment this listener in testNG xml file.
  ```<!--<listener class-name="com.restbusters.testrails.integration.services.testrail.TestRailListener"/>-->```
   * Set the following env var
@@ -23,7 +24,7 @@ Supports:
     `resource.payload`
   * Configured via properties resources/config
     ```template.extension=ftl,json```
-  * Setup template in test class from test class
+  * Setup template from test class
     ```
     @BeforeClass(alwaysRun = true)
      private void setUP(){
@@ -36,10 +37,10 @@ Supports:
   * Usage from test using provided substitution values
     `String result = this.tm.processTemplateWithJsonInput("add-pet", "0.1", jsonPayloadSubs);`
 * Supports Http Clients
-  * Use this interface ```RestClientHelper.getInstance().``` to build your own client or retrieve oath 2.0 bearer toekn
+  * Use this interface ```RestClientHelper.getInstance().``` to build your own client or retrieve oath 2.0 bearer token
   * Supported client 
-    `Basic, Bearer, NoAuth,Trusted clent,`
-  * Supports token OAuth2. token retrieval 
+    `Basic, Bearer, NoAuth,Trusted`
+  * Supports OAuth2 token retrieval 
 * Supports configuration properties for multiple env
   ```
   #DEV
@@ -47,7 +48,7 @@ Supports:
   #INT
   swagger.int.service.url=https://petstore.swagger.io/v2/swagger.json,https://petstore3.swagger.io/api/v3/openapi.json
   ```
-* Support Swagger based configuration no need to have properties for you api
+* Support Swagger based configuration, no need to have properties for your api to store metadata in case swagger definition is available
   * Add your url int swagger property `swagger.int.service.url`
   * From your test class
     ```    @BeforeClass(alwaysRun = true)
