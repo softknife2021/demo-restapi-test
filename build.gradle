@@ -27,8 +27,12 @@ testlogger {
 
 repositories {
     mavenCentral()
-    jcenter()
-
+    maven{
+        url "https://packages.atlassian.com/mvn/maven-atlassian-external/"
+    }
+    maven  {
+        url "https://repo1.maven.org/maven2"
+    }
 }
 
 dependencies {
@@ -39,7 +43,7 @@ dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha6'
     testImplementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '2.0.0-alpha6'
     //looks like test rails lib requires it
-    implementation 'com.restbusters:qreasp:0.0.49'
+    implementation 'com.restbusters:qreasp:0.0.53'
     implementation group: 'com.codepine.api', name: 'testrail-api-java-client', version: '2.0.2'
     //apache
     implementation group: 'org.apache.commons', name: 'commons-text', version: '1.8'
