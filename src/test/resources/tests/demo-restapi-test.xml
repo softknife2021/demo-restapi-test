@@ -2,7 +2,7 @@
 <suite name="Demo rest api tests">
     <listeners>
             <listener class-name="com.softknife.testng.listener.NoTrace"></listener>
-           <!-- <listener class-name="com.restbusters.testng.listener.ElasticSearchListener"></listener>-->
+           <listener class-name="com.softknife.testng.listener.ElasticSearchListener"></listener>
            <!--<listener class-name="com.restbusters.testrails.integration.services.testrail.TestRailListener"/>-->
         </listeners>
     <test name="demo pet store test">
