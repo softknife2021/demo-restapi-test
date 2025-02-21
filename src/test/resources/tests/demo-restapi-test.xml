@@ -1,11 +1,11 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="Demo rest api tests">
     <listeners>
-            <listener class-name="com.softknife.testng.listener.NoTrace"></listener>
-           <listener class-name="com.softknife.testng.listener.ElasticSearchListener"></listener>
-           <!--<listener class-name="com.restbusters.testrails.integration.services.testrail.TestRailListener"/>-->
-        </listeners>
-    <test name="demo pet store test">
+        <listener class-name="com.softknife.testng.listener.NoTrace"></listener>
+        <listener class-name="com.softknife.testng.listener.ElasticSearchListener"></listener>
+        <!--<listener class-name="com.restbusters.testrails.integration.services.testrail.TestRailListener"/>-->
+    </listeners>
+    <test name="demo pet store api test">
         <groups>
             <run>
                 <include name="smoke"/>
