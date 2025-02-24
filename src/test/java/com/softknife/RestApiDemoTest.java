@@ -5,6 +5,7 @@ import com.restbusters.data.templating.TemplateManager;
 import com.restbusters.exception.RecordNotFound;
 import com.restbusters.integraton.swagger.SwaggerApiResourceFilter;
 import com.restbusters.integraton.swagger.model.SwaggerApiResource;
+import com.restbusters.util.cmd.CmdExecutor;
 import com.softknife.resources.DemoTestConfigResourceProvider;
 import com.restbusters.rest.client.RestClientHelper;
 import com.restbusters.rest.model.HttpRestRequest;
@@ -42,11 +43,20 @@ public class RestApiDemoTest {
         this.provider = DemoTestConfigResourceProvider.getInstance();
         this.okHttpClient = RestClientHelper.getInstance().buildBasicAuthClient("user", "pass");
         this.tm = provider.getTemplateManager();
+    }
+
+    @Test(priority = 1, groups = {"smoke"}, description = "Test Elastic search container")
+    @RailsMetaData(testCaseId = 120)
+    private void test_elastic() {
+
+        String curlCommand = "apk add curl; curl -v http://quickstart-es-http.eck.svc:9200";
+        String result = null;
         try {
-            Thread.sleep(30000);
-        } catch (InterruptedException e) {
+            result = CmdExecutor.execToString(curlCommand);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        logger.info(result);
     }
 
     @Test(groups = {"smoke"}, description = "create pet should always pass")
