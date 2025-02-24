@@ -42,6 +42,11 @@ public class RestApiDemoTest {
         this.provider = DemoTestConfigResourceProvider.getInstance();
         this.okHttpClient = RestClientHelper.getInstance().buildBasicAuthClient("user", "pass");
         this.tm = provider.getTemplateManager();
+        try {
+            Thread.sleep(30000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test(groups = {"smoke"}, description = "create pet should always pass")
