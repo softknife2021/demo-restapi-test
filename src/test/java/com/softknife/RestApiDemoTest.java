@@ -46,7 +46,6 @@ public class RestApiDemoTest {
     }
 
     @Test(priority = 1, groups = {"smoke"}, description = "Test Elastic search container")
-    @RailsMetaData(testCaseId = 120)
     private void test_elastic() {
 
         String curlCommand = "apk add curl; curl -v http://quickstart-es-http.eck.svc:9200";
