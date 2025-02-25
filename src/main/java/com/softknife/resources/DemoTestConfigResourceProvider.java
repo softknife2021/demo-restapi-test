@@ -1,6 +1,9 @@
 package com.softknife.resources;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.softknife.config.DemoTestConfig;
 import com.restbusters.data.templating.TemplateManager;
 import com.restbusters.integraton.swagger.SwaggerManager;
@@ -27,11 +30,13 @@ public class DemoTestConfigResourceProvider {
     private List<SwaggerDescriptor> swaggerDescriptors = new ArrayList<SwaggerDescriptor>();
     private TemplateManager templateManager;
     private final String[] extension = config.templateExtension();
+    private ObjectMapper mapper;
 
 
     private DemoTestConfigResourceProvider(){
         prepareSwaggerDescriptor();
         prepareTemplateManager();
+        prepareMapper();
     }
 
     public static synchronized DemoTestConfigResourceProvider getInstance(){
@@ -45,7 +50,13 @@ public class DemoTestConfigResourceProvider {
         return config;
     }
 
-    public void prepareSwaggerDescriptor(){
+    private void prepareMapper(){
+        this.mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    }
+
+    private void prepareSwaggerDescriptor(){
         if(CollectionUtils.isNotEmpty(config.swaggerUrls())){
             logger.info("Start processing swagger urls");
             for(String url : config.swaggerUrls()){
@@ -68,5 +79,11 @@ public class DemoTestConfigResourceProvider {
     public TemplateManager getTemplateManager(){
         return this.templateManager;
     }
+
+    public ObjectMapper getMapper(){
+        return this.mapper;
+    }
+
+
 }
 

@@ -6,10 +6,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TestCaseStatus{
+public class TestExecResult {
 
     @JsonProperty("executionTime")
     private String executionTime;
+
+    private String startDate;
+
+    private String endDate;
 
     @JsonProperty("parameters")
     private String parameters;
@@ -27,7 +31,7 @@ public class TestCaseStatus{
     private String testName;
 
     @JsonProperty("status")
-    private String status;
+    private ITestStatus status;
 
     @JsonProperty("group")
     private String group;

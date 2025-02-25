@@ -103,13 +103,5 @@ public class RestApiDemoTest {
         Assert.assertEquals(this.petId, fakeExpected, this.provider.getGlobalConfig().messageAssertNotEqual(this.petId, fakeExpected));
     }
 
-    @Test(groups = {"smoke"}, description = "this test should be skipped", dependsOnMethods = "find_pet_by_id_fail")
-    @RailsMetaData(testCaseId = 123)
-    private void test_should_be_skipped() {
-        throw new SkipException("This test case is skipped");
-    }
-
-
-
 }
 

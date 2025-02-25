@@ -1,9 +1,12 @@
 package com.softknife.testng.listener;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.softknife.config.DemoTestConfig;
 import com.softknife.resources.DemoTestConfigResourceProvider;
 import com.softknife.testng.StatusSender;
-import com.softknife.testng.model.TestCaseStatus;
+import com.softknife.testng.model.ITestStatus;
+import com.softknife.testng.model.TestExecResult;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,27 +19,28 @@ import java.time.LocalDateTime;
 
 public class ElasticSearchListener implements ITestListener {
 
-    private TestCaseStatus testCaseStatus;
+    private TestExecResult testExecResult;
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private DemoTestConfig config = DemoTestConfigResourceProvider.getInstance().getGlobalConfig();
+    private ObjectMapper mapper =  DemoTestConfigResourceProvider.getInstance().getMapper();
 
     public void onTestStart(ITestResult iTestResult) {
         logger.info("Test started:{}", iTestResult.getMethod().getMethodName());
-        this.testCaseStatus = new TestCaseStatus();
+        this.testExecResult = new TestExecResult();
 
     }
 
 
     public void onTestSuccess(ITestResult iTestResult) {
-        this.sendStatus(iTestResult,"PASS");
+        this.sendStatus(iTestResult, ITestStatus.PASS);
     }
 
     public void onTestFailure(ITestResult iTestResult) {
-        this.sendStatus(iTestResult,"FAIL");
+        this.sendStatus(iTestResult,ITestStatus.FAIL);
     }
 
     public void onTestSkipped(ITestResult iTestResult) {
-        this.sendStatus(iTestResult,"SKIPPED");
+        this.sendStatus(iTestResult,ITestStatus.SKIPPED);
     }
 
     public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
@@ -51,31 +55,35 @@ public class ElasticSearchListener implements ITestListener {
         logger.info("Test Finished: {}", iTestContext.getName());
     }
 
-    private void sendStatus(ITestResult iTestResult, String status){
+    private void sendStatus(ITestResult iTestResult, ITestStatus status){
         if(config.sendResultElastic()){
-            this.testCaseStatus.setGroup(StringUtils.join(iTestResult.getMethod().getGroups(), ","));
-            this.testCaseStatus.setTestClass(iTestResult.getTestClass().getName());
-            this.testCaseStatus.setDescription(iTestResult.getMethod().getDescription());
-            this.testCaseStatus.setStatus(status);
-            this.testCaseStatus.setTestName(iTestResult.getTestName());
-            this.testCaseStatus.setExecutionTime(LocalDateTime.now().toString());
-            this.testCaseStatus.setTestName(iTestResult.getName());
-            this.testCaseStatus.setEnv(DemoTestConfigResourceProvider.getInstance().getGlobalConfig().env());
+            this.testExecResult.setGroup(StringUtils.join(iTestResult.getMethod().getGroups(), ","));
+            this.testExecResult.setTestClass(iTestResult.getTestClass().getName());
+            this.testExecResult.setDescription(iTestResult.getMethod().getDescription());
+            this.testExecResult.setStatus(status);
+            this.testExecResult.setTestName(iTestResult.getTestName());
+            this.testExecResult.setExecutionTime(LocalDateTime.now().toString());
+            this.testExecResult.setTestName(iTestResult.getName());
+            this.testExecResult.setEnv(DemoTestConfigResourceProvider.getInstance().getGlobalConfig().env());
             if(iTestResult.getTestContext().getIncludedGroups().length > 0){
-                this.testCaseStatus.setGroup( StringUtils.join(iTestResult.getTestContext().getIncludedGroups(), ' '));
+                this.testExecResult.setGroup( StringUtils.join(iTestResult.getTestContext().getIncludedGroups(), ' '));
             }
             if(iTestResult.getParameters().length > 0){
-                this.testCaseStatus.setParameters(iTestResult.getParameters()[0].toString());
+                this.testExecResult.setParameters(iTestResult.getParameters()[0].toString());
             }
-            if(status.equalsIgnoreCase("FAIL")){
-                this.testCaseStatus.setError(iTestResult.getThrowable().getLocalizedMessage());
+            if(status.equals(ITestStatus.FAIL)){
+                this.testExecResult.setError(iTestResult.getThrowable().getLocalizedMessage());
             }
             if(StringUtils.isNotBlank(config.buildId())){
-                this.testCaseStatus.setBuildUrl(config.buildUrl());
-                this.testCaseStatus.setBuildJobName(config.buildJobName());
-                this.testCaseStatus.setBuildId(config.buildId());
+                this.testExecResult.setBuildUrl(config.buildUrl());
+                this.testExecResult.setBuildJobName(config.buildJobName());
+                this.testExecResult.setBuildId(config.buildId());
             }
-            StatusSender.send(this.testCaseStatus);
+            try {
+                StatusSender.send(this.mapper.writeValueAsString(testExecResult));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
         else {
             logger.info("Elastic test case result sends it turned off");

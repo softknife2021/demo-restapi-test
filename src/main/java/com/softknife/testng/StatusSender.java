@@ -7,7 +7,7 @@ import com.restbusters.resource.GlobalResourceManager;
 import com.softknife.resources.DemoTestConfigResourceProvider;
 import com.restbusters.rest.client.RestClientHelper;
 import com.restbusters.rest.model.HttpRestRequest;
-import com.softknife.testng.model.TestCaseStatus;
+import com.softknife.testng.model.TestExecResult;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import org.slf4j.Logger;
@@ -23,19 +23,10 @@ public class StatusSender {
     private static DemoTestConfig config = DemoTestConfigResourceProvider.getInstance().getGlobalConfig();
     private static OkHttpClient okHttpClient = RestClientHelper.getInstance().buildBasicAuthClient(config.elasticUser(), config.elasticPass());
 
-    public static void send(final TestCaseStatus testCaseStatus){
-        try {
-            logger.info(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(testCaseStatus));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+    public static void send(final String testResults){
         HttpRestRequest httpRestRequest = new HttpRestRequest("POST", config.elasticHost() + "/" + config.elasticApp());
         logger.info("elastic user {}, password {}", config.elasticUser(), config.elasticPass());
-        try {
-            httpRestRequest.setRequestBody(objectMapper.writeValueAsString(testCaseStatus));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        httpRestRequest.setRequestBody(testResults);
         try {
             Response response = RestClientHelper.getInstance().executeRequest(okHttpClient, httpRestRequest);
             logger.info("Response from elastic code: {} \n body: ", response.code(), response.body());
