@@ -38,6 +38,7 @@ public class CustomReporter implements IReporter {
         testRunStatus.setRunId(UUID.randomUUID());
         testRunStatus.setDescription("description should be tight to test pipeline");
         testRunStatus.setExecutionStartTime(LocalDateTime.now().toString());
+        testRunStatus.setEnv(config.env());
 
         for (ISuite suite : suites) {
             System.out.println("Suite Name: " + suite.getName());

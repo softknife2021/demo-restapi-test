@@ -18,4 +18,5 @@ public class TestRunStatus {
     private String description;
     private List<TestSuiteStatus> testSuiteStatuses;
     private String executionStartTime;
+    private String env;
 }
