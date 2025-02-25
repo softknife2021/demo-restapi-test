@@ -87,7 +87,7 @@ public class CustomReporter implements IReporter {
             TestExecResult tcs = new TestExecResult();
             ITestResult iTestResult = trIterator.next();
             tcs.setDescription(iTestResult.getMethod().getDescription());
-            tcs.setTestName(iTestResult.getTestName());
+            tcs.setTestName(iTestResult.getName());
             tcs.setEnv(this.config.env());
             tcs.setStartDate(iTestResult.getTestContext().getStartDate().toString());
             tcs.setEndDate(iTestResult.getTestContext().getEndDate().toString());
