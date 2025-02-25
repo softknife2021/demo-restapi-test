@@ -23,6 +23,11 @@ public class StatusSender {
     private static OkHttpClient okHttpClient = RestClientHelper.getInstance().buildBasicAuthClient(config.elasticUser(), config.elasticPass());
 
     public static void send(final TestCaseStatus testCaseStatus){
+        try {
+            logger.info(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(testCaseStatus));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         HttpRestRequest httpRestRequest = new HttpRestRequest("POST", config.elasticHost() + "/" + config.elasticApp());
         logger.info("elastic user {}, password {}", config.elasticUser(), config.elasticPass());
         try {
