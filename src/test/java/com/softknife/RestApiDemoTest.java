@@ -74,7 +74,37 @@ public class RestApiDemoTest {
         Assert.assertTrue(Integer.class.isInstance(this.petId), "Expected pet id to be a valid number");
     }
 
-    @Test(dependsOnMethods = "add_pet", description = "get by id should always pass", groups = { "smoke"})
+    @Test(dependsOnMethods = "find pet by id functional test", description = "get by id should always pass", groups = { "functional"})
+    @RailsMetaData(testCaseId = 121)
+    private void find_pet_by_id_func() throws RecordNotFound, IOException {
+        SwaggerApiResource sar = SwaggerApiResourceFilter.fetchApiResource(this.provider.getSwaggerDescriptors(),
+                "Swagger Petstore", "getPetById");
+        Map<String,String> urlParams = new HashMap<>();
+        urlParams.put("petId", String.valueOf(this.petId));
+        HttpRestRequest httpRestRequest = new HttpRestRequest(sar.getHttpMethod(), sar.getResourcePath());
+        httpRestRequest.setUrlParams(urlParams);
+        Response response = RestClientHelper.getInstance().executeRequest(this.okHttpClient, httpRestRequest);
+        Assert.assertEquals(response.code(), 200, "Expected successful response");
+        int actualValue = JsonPath.read(response.body().string(), "$.id");
+        this.provider.getGlobalConfig().messageAssertNotEqual(actualValue, this.petId);
+    }
+
+    @Test(dependsOnMethods = "find pet by id sec", description = "get by id should always pass", groups = { "security"})
+    @RailsMetaData(testCaseId = 121)
+    private void find_pet_by_id_sec() throws RecordNotFound, IOException {
+        SwaggerApiResource sar = SwaggerApiResourceFilter.fetchApiResource(this.provider.getSwaggerDescriptors(),
+                "Swagger Petstore", "getPetById");
+        Map<String,String> urlParams = new HashMap<>();
+        urlParams.put("petId", String.valueOf(this.petId));
+        HttpRestRequest httpRestRequest = new HttpRestRequest(sar.getHttpMethod(), sar.getResourcePath());
+        httpRestRequest.setUrlParams(urlParams);
+        Response response = RestClientHelper.getInstance().executeRequest(this.okHttpClient, httpRestRequest);
+        Assert.assertEquals(response.code(), 200, "Expected successful response");
+        int actualValue = JsonPath.read(response.body().string(), "$.id");
+        this.provider.getGlobalConfig().messageAssertNotEqual(actualValue, this.petId);
+    }
+
+    @Test(dependsOnMethods = "find pet by id", description = "get by id should always pass", groups = { "smoke"})
     @RailsMetaData(testCaseId = 121)
     private void find_pet_by_id() throws RecordNotFound, IOException {
         SwaggerApiResource sar = SwaggerApiResourceFilter.fetchApiResource(this.provider.getSwaggerDescriptors(),
@@ -89,7 +119,7 @@ public class RestApiDemoTest {
         this.provider.getGlobalConfig().messageAssertNotEqual(actualValue, this.petId);
     }
 
-    @Test(description = "get by id should fail", groups = { "smoke"})
+    @Test(description = "get by id should fail", groups = { "negative"})
     @RailsMetaData(testCaseId = 122)
     private void find_pet_by_id_fail() throws RecordNotFound, IOException {
         SwaggerApiResource sar = SwaggerApiResourceFilter.fetchApiResource(this.provider.getSwaggerDescriptors(),
