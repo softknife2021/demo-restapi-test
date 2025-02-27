@@ -38,9 +38,9 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
-    implementation 'org.slf4j:slf4j-api:1.7.28'
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha6'
+    //implementation 'org.slf4j:slf4j-api:1.7.28'
+    //implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    //implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha6'
     testImplementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '2.0.0-alpha6'
     //looks like test rails lib requires it
     implementation 'com.restbusters:qreasp:0.0.53'
