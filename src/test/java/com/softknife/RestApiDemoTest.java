@@ -121,5 +121,14 @@ public class RestApiDemoTest {
         Assert.assertEquals(this.petId, fakeExpected, this.provider.getGlobalConfig().messageAssertNotEqual(this.petId, fakeExpected));
     }
 
+    @Test(dependsOnMethods = "add_pet", description = "this test should fail", groups = { "smoke"})
+    private void pet_should_fail() throws RecordNotFound, IOException {
+        Assert.assertTrue(1 == 0);
+    }
+
+    @Test(dependsOnMethods = "pet_should_fail", description = "this test should be skipped", groups = { "smoke"})
+    private void pet_should_be_skipped() throws RecordNotFound, IOException {
+    }
+
 }
 
