@@ -40,7 +40,7 @@ public class HttpClientFactory {
         List<HttpClient> httpClients = new ArrayList<>();
         for (ClientConfig clientConfig : configList.getClients()) {
             OkHttpClient client = null;
-            if(bearer == ClientType.BEARER){
+            if (bearer == ClientType.BEARER) {
                 try {
                     client = RestClientHelper.getInstance().buildBearerClient(clientConfig.getApiKey());
                 } catch (Exception e) {
@@ -48,7 +48,7 @@ public class HttpClientFactory {
                     e.printStackTrace();
                 }
             }
-            if(basic == ClientType.BASIC){
+            if (basic == ClientType.BASIC) {
                 try {
                     client = rsh.buildBasicAuthClient(clientConfig.getUserName(), decodePassword(clientConfig));
                 } catch (Exception e) {
@@ -57,7 +57,7 @@ public class HttpClientFactory {
                 }
             }
 
-            if(client != null){
+            if (client != null) {
                 httpClients.add(new HttpClient(clientConfig, client));
             }
         }
@@ -65,8 +65,8 @@ public class HttpClientFactory {
         return httpClients;
     }
 
-    private static String decodePassword(ClientConfig clientConfig){
-        if(clientConfig.getIsEncrypted() == true){
+    private static String decodePassword(ClientConfig clientConfig) {
+        if (clientConfig.getIsEncrypted() == true) {
             return AESUtil.decrypt(clientConfig.getPassword(), config.passKey());
         }
         return clientConfig.getPassword();

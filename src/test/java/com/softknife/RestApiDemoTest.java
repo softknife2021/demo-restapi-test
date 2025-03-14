@@ -38,7 +38,7 @@ public class RestApiDemoTest {
     private int petId;
 
     @BeforeClass(alwaysRun = true)
-    private void setUP(){
+    private void setUP() {
         logger.info("Setting up test class");
         this.provider = DemoTestConfigResourceProvider.getInstance();
         this.provider.intiResources();
@@ -62,12 +62,12 @@ public class RestApiDemoTest {
         Assert.assertTrue(Integer.class.isInstance(this.petId), "Expected pet id to be a valid number");
     }
 
-    @Test(dependsOnMethods = "add_pet", description = "get by id should always pass functional", groups = { "functional"})
+    @Test(dependsOnMethods = "add_pet", description = "get by id should always pass functional", groups = {"functional"})
     @RailsMetaData(testCaseId = 121)
     private void find_pet_by_id_func() throws RecordNotFound, IOException {
         SwaggerApiResource sar = SwaggerApiResourceFilter.fetchApiResource(this.provider.getSwaggerDescriptors(),
                 "Swagger Petstore", "getPetById");
-        Map<String,String> urlParams = new HashMap<>();
+        Map<String, String> urlParams = new HashMap<>();
         urlParams.put("petId", String.valueOf(this.petId));
         HttpRestRequest httpRestRequest = new HttpRestRequest(sar.getHttpMethod(), sar.getResourcePath());
         httpRestRequest.setUrlParams(urlParams);
@@ -77,12 +77,12 @@ public class RestApiDemoTest {
         this.provider.getGlobalConfig().messageAssertNotEqual(actualValue, this.petId);
     }
 
-    @Test(dependsOnMethods = "add_pet", description = "get by id should always pass security", groups = { "security"})
+    @Test(dependsOnMethods = "add_pet", description = "get by id should always pass security", groups = {"security"})
     @RailsMetaData(testCaseId = 121)
     private void find_pet_by_id_sec() throws RecordNotFound, IOException {
         SwaggerApiResource sar = SwaggerApiResourceFilter.fetchApiResource(this.provider.getSwaggerDescriptors(),
                 "Swagger Petstore", "getPetById");
-        Map<String,String> urlParams = new HashMap<>();
+        Map<String, String> urlParams = new HashMap<>();
         urlParams.put("petId", String.valueOf(this.petId));
         HttpRestRequest httpRestRequest = new HttpRestRequest(sar.getHttpMethod(), sar.getResourcePath());
         httpRestRequest.setUrlParams(urlParams);
@@ -92,12 +92,12 @@ public class RestApiDemoTest {
         this.provider.getGlobalConfig().messageAssertNotEqual(actualValue, this.petId);
     }
 
-    @Test(dependsOnMethods = "add_pet", description = "functional get by id should always pass", groups = { "smoke"})
+    @Test(dependsOnMethods = "add_pet", description = "functional get by id should always pass", groups = {"smoke"})
     @RailsMetaData(testCaseId = 121)
     private void find_pet_by_id() throws RecordNotFound, IOException {
         SwaggerApiResource sar = SwaggerApiResourceFilter.fetchApiResource(this.provider.getSwaggerDescriptors(),
                 "Swagger Petstore", "getPetById");
-        Map<String,String> urlParams = new HashMap<>();
+        Map<String, String> urlParams = new HashMap<>();
         urlParams.put("petId", String.valueOf(this.petId));
         HttpRestRequest httpRestRequest = new HttpRestRequest(sar.getHttpMethod(), sar.getResourcePath());
         httpRestRequest.setUrlParams(urlParams);
@@ -107,12 +107,12 @@ public class RestApiDemoTest {
         this.provider.getGlobalConfig().messageAssertNotEqual(actualValue, this.petId);
     }
 
-    @Test(description = "get by id should fail", groups = { "negative"})
+    @Test(description = "get by id should fail", groups = {"negative"})
     @RailsMetaData(testCaseId = 122)
     private void find_pet_by_id_fail() throws RecordNotFound, IOException {
         SwaggerApiResource sar = SwaggerApiResourceFilter.fetchApiResource(this.provider.getSwaggerDescriptors(),
                 "Swagger Petstore", "getPetById");
-        Map<String,String> urlParams = new HashMap<>();
+        Map<String, String> urlParams = new HashMap<>();
         urlParams.put("petId", String.valueOf(this.petId));
         HttpRestRequest httpRestRequest = new HttpRestRequest(sar.getHttpMethod(), sar.getResourcePath());
         httpRestRequest.setUrlParams(urlParams);
@@ -121,12 +121,12 @@ public class RestApiDemoTest {
         Assert.assertEquals(this.petId, fakeExpected, this.provider.getGlobalConfig().messageAssertNotEqual(this.petId, fakeExpected));
     }
 
-    @Test(dependsOnMethods = "add_pet", description = "this test should fail", groups = { "smoke"})
+    @Test(dependsOnMethods = "add_pet", description = "this test should fail", groups = {"smoke"})
     private void pet_should_fail() throws RecordNotFound, IOException {
         Assert.assertTrue(1 == 0);
     }
 
-    @Test(dependsOnMethods = "pet_should_fail", description = "this test should be skipped", groups = { "smoke"})
+    @Test(dependsOnMethods = "pet_should_fail", description = "this test should be skipped", groups = {"smoke"})
     private void pet_should_be_skipped() throws RecordNotFound, IOException {
     }
 
