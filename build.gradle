@@ -82,36 +82,16 @@ sourceSets {
     }
 }
 
-tasks.withType(AbstractCompile) {
-    options.compilerArgs += ["--add-exports", "java.base/sun.security.util=ALL-UNNAMED"]
-    options.compilerArgs += ["--add-exports", "java.base/sun.security.pkcs=ALL-UNNAMED"]
-}
+task checkEnvironment {
+    doFirst {
+        def requiredEnvVars = ['PASS_KEY'] // Add your required env vars here
+        def missingVars = requiredEnvVars.findAll { !System.getenv(it) }
 
-task deploy(type: Test) {
-    def taskXml = null;
-    println "System getEnv ${System.getenv()}"
-    println "System getProp ${System.getProperties()}"
-    System.getProperties().each { key, value ->
-        if(key.contains('DEMO')){
-            println "Name: $key Value: $value"
-            systemProperty key, value
-            if(key.contains('DEMO_TRIGGER_DEPLOY')){
-                println "Name: $key Value: $value"
-                taskXml = value
-            }
+        if (missingVars) {
+            throw new GradleException("Missing required environment variables: ${missingVars.join(', ')}")
+        } else {
+            println "All required environment variables are set."
         }
-    }
-    println "Task xml: ${taskXml}.xml"
-    minHeapSize = "128m"
-    maxHeapSize = "1024m"
-    useTestNG() {
-        suites "src/test/resources/tasks${taskXml}.xml"
-        useDefaultListeners = true
-    }
-    testLogging {
-        exceptionFormat = 'full'
-        showStackTraces = "true"
-        showStandardStreams = 'true'
     }
 }
 
@@ -146,3 +126,5 @@ task demoTest(type: Test) {
         showStandardStreams = 'true'
     }
 }
+
+tasks.demoTest.dependsOn 'checkEnvironment'

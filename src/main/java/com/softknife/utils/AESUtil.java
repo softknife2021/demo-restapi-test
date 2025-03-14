@@ -5,18 +5,21 @@ package com.softknife.utils;
  * @project demo-restapi-test
  */
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.lang.invoke.MethodHandles;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 public class AESUtil {
 
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     // AES algorithm
     private static final String AES_ALGORITHM = "AES";
-
     // Secret key (must be 16, 24, or 32 bytes long for AES-128, AES-192, or AES-256 respectively)
-    private static final String SECRET_KEY = "YourSecretKey"; // 32 bytes for AES-256
 
     /**
      * Encrypts a password using AES.
@@ -50,6 +53,7 @@ public class AESUtil {
      * @return The decrypted password.
      */
     public static String decrypt(String encryptedPassword, final String passKey) {
+        logger.info("Started decryption process");
         try {
             // Create a secret key from the provided key
             SecretKeySpec secretKey = new SecretKeySpec(passKey.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
