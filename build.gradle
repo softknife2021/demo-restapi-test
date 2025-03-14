@@ -72,12 +72,19 @@ dependencies {
     testImplementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
     //testImplementation files('libs/testng-rails-integration-0.0.1.jar')
     implementation 'com.restbusters:testng-rails-integration:0.0.1'
-    //added to make test work
 }
 
-application {
-    // Define the main class for the application.
-    mainClassName = 'gw.App'
+sourceSets {
+    test {
+        resources {
+            srcDirs = ['src/test/resources']
+        }
+    }
+}
+
+tasks.withType(AbstractCompile) {
+    options.compilerArgs += ["--add-exports", "java.base/sun.security.util=ALL-UNNAMED"]
+    options.compilerArgs += ["--add-exports", "java.base/sun.security.pkcs=ALL-UNNAMED"]
 }
 
 task deploy(type: Test) {

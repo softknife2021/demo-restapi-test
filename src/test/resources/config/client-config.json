@@ -1,0 +1,13 @@
+{
+  "clients": [
+    {
+      "name": "DemoBasic",
+      "description": "basic client for basic testing",
+      "userName": "test",
+      "password": "I759otBBIimd1d+iNt+Svg==",
+      "isEncrypted": true,
+      "clientType": "BASIC",
+      "timeout": 5000
+    }
+  ]
+}

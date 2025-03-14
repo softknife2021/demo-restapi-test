@@ -66,4 +66,7 @@ public interface DemoTestConfig extends Config {
 
     @Key("test.equal.digit.assertion")
     public String messageAssertNotEqual(int actualValue, int expectedValue);
+
+    @DefaultValue("${PASS_KEY}")
+    String passKey();
 }
