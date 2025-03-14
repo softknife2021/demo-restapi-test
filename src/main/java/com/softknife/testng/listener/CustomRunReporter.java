@@ -25,7 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-public class CustomReporter implements IReporter {
+public class CustomRunReporter implements IReporter {
 
     TestRunStatus testRunStatus = new TestRunStatus();
     List<TestSuiteStatus> testSuiteStatusList = new ArrayList<>();
@@ -81,7 +81,6 @@ public class CustomReporter implements IReporter {
             e.printStackTrace();
         }
     }
-
     private List<TestExecResult> setTestCaseStatus(List<TestExecResult> testExecResults, Iterator<ITestResult> trIterator, ITestStatus iTestStatus) {
         while (trIterator.hasNext()) {
             TestExecResult tcs = new TestExecResult();

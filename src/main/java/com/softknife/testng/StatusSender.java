@@ -1,13 +1,11 @@
 package com.softknife.testng;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softknife.config.DemoTestConfig;
 import com.restbusters.resource.GlobalResourceManager;
-import com.softknife.resources.DemoTestConfigResourceProvider;
 import com.restbusters.rest.client.RestClientHelper;
 import com.restbusters.rest.model.HttpRestRequest;
-import com.softknife.testng.model.TestExecResult;
+import com.softknife.config.DemoTestConfig;
+import com.softknife.resources.DemoTestConfigResourceProvider;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import org.slf4j.Logger;

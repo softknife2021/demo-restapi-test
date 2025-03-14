@@ -32,19 +32,19 @@ import java.util.Map;
 public class RestApiDemoTest {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    DemoTestConfigResourceProvider provider;
-    OkHttpClient okHttpClient;
-    TemplateManager tm;
-    int petId;
+    private DemoTestConfigResourceProvider provider;
+    private OkHttpClient okHttpClient;
+    private TemplateManager tm;
+    private int petId;
 
     @BeforeClass(alwaysRun = true)
     private void setUP(){
         logger.info("Setting up test class");
         this.provider = DemoTestConfigResourceProvider.getInstance();
-        this.okHttpClient = RestClientHelper.getInstance().buildBasicAuthClient("user", "pass");
+        this.provider.intiResources();
+        this.okHttpClient = DemoTestConfigResourceProvider.getInstance().findHttpClientByName("DemoBasic");
         this.tm = provider.getTemplateManager();
     }
-
 
     @Test(groups = {"smoke"}, description = "create pet should always pass")
     @RailsMetaData(testCaseId = 120)
