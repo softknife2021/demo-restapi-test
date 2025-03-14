@@ -46,6 +46,7 @@ public class HttpClientFactory {
             }
             if (basic == ClientType.BASIC) {
                 try {
+                    logger.info("pass code {}", config.passKey());
                     client = rsh.buildBasicAuthClient(clientConfig.getUserName(), decodePassword(clientConfig));
                 } catch (Exception e) {
                     logger.error("Failed to build basic http client");
