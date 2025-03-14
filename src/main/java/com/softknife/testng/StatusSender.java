@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.restbusters.resource.GlobalResourceManager;
 import com.restbusters.rest.client.RestClientHelper;
 import com.restbusters.rest.model.HttpRestRequest;
-import com.softknife.config.DemoTestConfig;
-import com.softknife.resources.DemoTestConfigResourceProvider;
+import com.softknife.config.TestConfig;
+import com.softknife.resources.ConfigProvider;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import org.slf4j.Logger;
@@ -18,7 +18,7 @@ public class StatusSender {
 
     private static final ObjectMapper objectMapper = GlobalResourceManager.getInstance().getObjectMapper();
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private static DemoTestConfig config = DemoTestConfigResourceProvider.getInstance().getGlobalConfig();
+    private static TestConfig config = ConfigProvider.getInstance().getGlobalConfig();
     private static OkHttpClient okHttpClient = RestClientHelper.getInstance().buildBasicAuthClient(config.elasticUser(), config.elasticPass());
 
     public static void send(final String testResults){

@@ -2,8 +2,8 @@ package com.softknife.resources.http.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.restbusters.rest.client.RestClientHelper;
-import com.softknife.config.DemoTestConfig;
-import com.softknife.resources.DemoTestConfigResourceProvider;
+import com.softknife.config.TestConfig;
+import com.softknife.resources.ConfigProvider;
 import com.softknife.utils.AESUtil;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ public class HttpClientFactory {
     private static ClientType basic = ClientType.BASIC;
     private static ClientType bearer = ClientType.BEARER;
     private static RestClientHelper rsh = RestClientHelper.getInstance();
-    private static DemoTestConfig config = DemoTestConfigResourceProvider.getInstance().getGlobalConfig();
+    private static TestConfig config = ConfigProvider.getInstance().getGlobalConfig();
 
     public static List<HttpClient> createClientsFromConfig(String clientConfigList) throws IOException {
         // Read JSON configuration

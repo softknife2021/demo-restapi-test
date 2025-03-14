@@ -28,7 +28,7 @@ Supports:
     ```
     @BeforeClass(alwaysRun = true)
      private void setUP(){
-     this.provider = DemoTestConfigResourceProvider.getInstance();
+     this.provider = TestConfigResourceProvider.getInstance();
      this.tm = provider.getTemplateManager();
     }
     ```
@@ -53,7 +53,7 @@ Supports:
   * From your test class
     ```    @BeforeClass(alwaysRun = true)
     private void setUP(){
-        this.provider = DemoTestConfigResourceProvider.getInstance();
+        this.provider = TestConfigResourceProvider.getInstance();
     }
     ```
     * From the test call your swagger endpoint metadata by api title and summary or description

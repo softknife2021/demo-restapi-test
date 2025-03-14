@@ -12,7 +12,7 @@ import java.util.List;
 @Config.LoadPolicy(Config.LoadType.MERGE)
 @Config.Sources({"file:/opt/config/deploy-config.properties",
         "classpath:config/automation-config.properties"})
-public interface DemoTestConfig extends Config {
+public interface TestConfig extends Config {
 
     @DefaultValue("${DEMO_DEPLOY_ENV}")
     String env();

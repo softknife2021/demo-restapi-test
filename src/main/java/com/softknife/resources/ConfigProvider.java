@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.restbusters.data.templating.TemplateManager;
 import com.restbusters.integraton.swagger.SwaggerManager;
 import com.restbusters.integraton.swagger.model.SwaggerDescriptor;
-import com.softknife.config.DemoTestConfig;
+import com.softknife.config.TestConfig;
 import com.softknife.resources.http.client.HttpClient;
 import com.softknife.resources.http.client.HttpClientFactory;
 import com.softknife.utils.CommonUtils;
@@ -27,11 +27,11 @@ import java.util.List;
  * @project qreasp
  */
 
-public class DemoTestConfigResourceProvider {
+public class ConfigProvider {
 
-    private static DemoTestConfigResourceProvider instance;
+    private static ConfigProvider instance;
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private DemoTestConfig config;
+    private TestConfig config;
     private List<SwaggerDescriptor> swaggerDescriptors = new ArrayList<SwaggerDescriptor>();
     private TemplateManager templateManager;
     private String[] extension;
@@ -41,16 +41,16 @@ public class DemoTestConfigResourceProvider {
     private boolean isInitialized = false;
 
 
-    private DemoTestConfigResourceProvider(){
-        this.config = ConfigFactory.create(DemoTestConfig.class, System.getProperties(), System.getenv());
+    private ConfigProvider(){
+        this.config = ConfigFactory.create(TestConfig.class, System.getProperties(), System.getenv());
         this.extension = config.templateExtension();
     }
 
-    public static synchronized DemoTestConfigResourceProvider getInstance(){
+    public static synchronized ConfigProvider getInstance(){
         if (instance == null) {
             synchronized (CommonUtils.class) {
                 if (instance == null) {
-                    instance = new DemoTestConfigResourceProvider();;
+                    instance = new ConfigProvider();;
                 }
             }
         }
@@ -76,7 +76,7 @@ public class DemoTestConfigResourceProvider {
         }
     }
 
-    public DemoTestConfig getGlobalConfig() {
+    public TestConfig getGlobalConfig() {
         return config;
     }
 

@@ -5,8 +5,7 @@ import com.restbusters.data.templating.TemplateManager;
 import com.restbusters.exception.RecordNotFound;
 import com.restbusters.integraton.swagger.SwaggerApiResourceFilter;
 import com.restbusters.integraton.swagger.model.SwaggerApiResource;
-import com.restbusters.util.cmd.CmdExecutor;
-import com.softknife.resources.DemoTestConfigResourceProvider;
+import com.softknife.resources.ConfigProvider;
 import com.restbusters.rest.client.RestClientHelper;
 import com.restbusters.rest.model.HttpRestRequest;
 import com.restbusters.testrails.integration.services.testrail.RailsMetaData;
@@ -16,7 +15,6 @@ import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -32,7 +30,7 @@ import java.util.Map;
 public class RestApiDemoTest {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private DemoTestConfigResourceProvider provider;
+    private ConfigProvider provider;
     private OkHttpClient okHttpClient;
     private TemplateManager tm;
     private int petId;
@@ -40,9 +38,9 @@ public class RestApiDemoTest {
     @BeforeClass(alwaysRun = true)
     private void setUP() {
         logger.info("Setting up test class");
-        this.provider = DemoTestConfigResourceProvider.getInstance();
+        this.provider = ConfigProvider.getInstance();
         this.provider.intiResources();
-        this.okHttpClient = DemoTestConfigResourceProvider.getInstance().findHttpClientByName("DemoBasic");
+        this.okHttpClient = ConfigProvider.getInstance().findHttpClientByName("DemoBasic");
         this.tm = provider.getTemplateManager();
     }
 

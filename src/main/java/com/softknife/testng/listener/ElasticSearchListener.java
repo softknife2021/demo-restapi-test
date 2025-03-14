@@ -2,8 +2,8 @@ package com.softknife.testng.listener;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softknife.config.DemoTestConfig;
-import com.softknife.resources.DemoTestConfigResourceProvider;
+import com.softknife.config.TestConfig;
+import com.softknife.resources.ConfigProvider;
 import com.softknife.testng.StatusSender;
 import com.softknife.testng.model.ITestStatus;
 import com.softknife.testng.model.TestExecResult;
@@ -21,8 +21,8 @@ public class ElasticSearchListener implements ITestListener {
 
     private TestExecResult testExecResult;
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private DemoTestConfig config = DemoTestConfigResourceProvider.getInstance().getGlobalConfig();
-    private ObjectMapper mapper =  DemoTestConfigResourceProvider.getInstance().getMapper();
+    private TestConfig config = ConfigProvider.getInstance().getGlobalConfig();
+    private ObjectMapper mapper =  ConfigProvider.getInstance().getMapper();
 
     public void onTestStart(ITestResult iTestResult) {
         logger.info("Test started:{}", iTestResult.getMethod().getMethodName());
@@ -64,7 +64,7 @@ public class ElasticSearchListener implements ITestListener {
             this.testExecResult.setTestName(iTestResult.getTestName());
             this.testExecResult.setExecutionTime(LocalDateTime.now().toString());
             this.testExecResult.setTestName(iTestResult.getName());
-            this.testExecResult.setEnv(DemoTestConfigResourceProvider.getInstance().getGlobalConfig().env());
+            this.testExecResult.setEnv(ConfigProvider.getInstance().getGlobalConfig().env());
             if(iTestResult.getTestContext().getIncludedGroups().length > 0){
                 this.testExecResult.setGroup( StringUtils.join(iTestResult.getTestContext().getIncludedGroups(), ' '));
             }

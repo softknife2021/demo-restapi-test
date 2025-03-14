@@ -7,8 +7,8 @@ package com.softknife.testng.listener;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softknife.config.DemoTestConfig;
-import com.softknife.resources.DemoTestConfigResourceProvider;
+import com.softknife.config.TestConfig;
+import com.softknife.resources.ConfigProvider;
 import com.softknife.testng.StatusSender;
 import com.softknife.testng.model.ITestStatus;
 import com.softknife.testng.model.TestExecResult;
@@ -29,8 +29,8 @@ public class CustomRunReporter implements IReporter {
 
     TestRunStatus testRunStatus = new TestRunStatus();
     List<TestSuiteStatus> testSuiteStatusList = new ArrayList<>();
-    private DemoTestConfig config = DemoTestConfigResourceProvider.getInstance().getGlobalConfig();
-    private ObjectMapper mapper = DemoTestConfigResourceProvider.getInstance().getMapper();
+    private TestConfig config = ConfigProvider.getInstance().getGlobalConfig();
+    private ObjectMapper mapper = ConfigProvider.getInstance().getMapper();
 
     @Override
     public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
