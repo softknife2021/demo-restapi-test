@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.restbusters.data.templating.TemplateManager;
 import com.restbusters.integraton.swagger.SwaggerManager;
 import com.restbusters.integraton.swagger.model.SwaggerDescriptor;
-import com.restbusters.util.common.RBFileUtils;
 import com.softknife.config.DemoTestConfig;
 import com.softknife.resources.http.client.HttpClient;
 import com.softknife.resources.http.client.HttpClientFactory;

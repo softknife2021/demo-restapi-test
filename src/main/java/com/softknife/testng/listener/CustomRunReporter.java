@@ -81,6 +81,7 @@ public class CustomRunReporter implements IReporter {
             e.printStackTrace();
         }
     }
+
     private List<TestExecResult> setTestCaseStatus(List<TestExecResult> testExecResults, Iterator<ITestResult> trIterator, ITestStatus iTestStatus) {
         while (trIterator.hasNext()) {
             TestExecResult tcs = new TestExecResult();

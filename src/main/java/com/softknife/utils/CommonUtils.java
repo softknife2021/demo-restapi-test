@@ -1,13 +1,11 @@
 package com.softknife.utils;
+
 import org.apache.commons.io.IOUtils;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
 import java.util.Date;
 
 /**
