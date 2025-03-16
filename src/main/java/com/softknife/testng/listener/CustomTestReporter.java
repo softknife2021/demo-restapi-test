@@ -56,11 +56,11 @@ public class CustomTestReporter implements IReporter {
                 tss.setTestSkipped(result.getTestContext().getSkippedTests().size());
                 tss.setIncludedGroups(result.getTestContext().getIncludedGroups().toString());
                 try {
+                    logger.info(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(tss));
                     StatusSender.send(this.mapper.writeValueAsString(tss), config.elasticAppSuites());
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
-
                 suite.getResults().forEach((suiteName, iSuiteResult) -> {
                     logger.info("Processing report for testcase: {}", result.getTestContext().getName());
                     if (iSuiteResult.getTestContext().getPassedTests().size() > 0) {
