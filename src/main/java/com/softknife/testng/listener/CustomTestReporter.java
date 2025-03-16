@@ -61,6 +61,7 @@ public class CustomTestReporter implements IReporter {
                 }
 
                 suite.getResults().forEach((suiteName, iSuiteResult) -> {
+                    logger.info("Processing report for testcase: {}", result.getTestContext().getName());
                     if (iSuiteResult.getTestContext().getPassedTests().size() > 0) {
                         Iterator<ITestResult> trIterator = iSuiteResult.getTestContext().getPassedTests().getAllResults().iterator();
                         this.setTestCaseStatus(trIterator, ITestStatus.PASS);
