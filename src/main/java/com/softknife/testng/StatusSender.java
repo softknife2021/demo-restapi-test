@@ -21,8 +21,8 @@ public class StatusSender {
     private static TestConfig config = ConfigProvider.getInstance().getGlobalConfig();
     private static OkHttpClient okHttpClient = RestClientHelper.getInstance().buildBasicAuthClient(config.elasticUser(), config.elasticPass());
 
-    public static void send(final String testResults){
-        HttpRestRequest httpRestRequest = new HttpRestRequest("POST", config.elasticHost() + "/" + config.elasticApp());
+    public static void send(final String testResults, final String elasticApp){
+        HttpRestRequest httpRestRequest = new HttpRestRequest("POST", config.elasticHost() + "/" + elasticApp);
         logger.info("elastic user {}, password {}", config.elasticUser(), config.elasticPass());
         httpRestRequest.setRequestBody(testResults);
         try {

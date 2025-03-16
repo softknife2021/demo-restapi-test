@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author amatsaylo on 3/13/25
@@ -55,6 +57,12 @@ public class CommonUtils {
             }
             return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         }
+    }
+
+    public String generateRunId() {
+        String timestamp = Instant.now().toString(); // ISO 8601 format
+        String uniqueSuffix = UUID.randomUUID().toString().substring(0, 6);
+        return "run_" + timestamp + "_" + uniqueSuffix;
     }
 
 }

@@ -26,7 +26,6 @@ public interface TestConfig extends Config {
     @DefaultValue("${DEMO_DEPLOY_ENV}")
     String deployEnv();
 
-
     @Key("deploy.request.body.trigger")
     String triggerRequestBody(String manifestId, String submittedBy);
 
@@ -69,4 +68,10 @@ public interface TestConfig extends Config {
 
     @DefaultValue("${PASS_KEY}")
     String passKey();
+
+    @Key("elastic.app.suite")
+    String elasticAppSuites();
+
+    @Key("elastic.app.testcases")
+    String elasticAppTestCases();
 }

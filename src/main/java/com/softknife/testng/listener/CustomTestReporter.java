@@ -12,79 +12,81 @@ import com.softknife.resources.ConfigProvider;
 import com.softknife.testng.StatusSender;
 import com.softknife.testng.model.ITestStatus;
 import com.softknife.testng.model.TestExecResult;
-import com.softknife.testng.model.TestRunStatus;
 import com.softknife.testng.model.TestSuiteStatus;
+import com.softknife.utils.CommonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.IReporter;
 import org.testng.ISuite;
 import org.testng.ITestResult;
 import org.testng.xml.XmlSuite;
 
+import java.lang.invoke.MethodHandles;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
-public class CustomRunReporter implements IReporter {
+public class CustomTestReporter implements IReporter {
 
-    TestRunStatus testRunStatus = new TestRunStatus();
-    List<TestSuiteStatus> testSuiteStatusList = new ArrayList<>();
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private TestConfig config = ConfigProvider.getInstance().getGlobalConfig();
     private ObjectMapper mapper = ConfigProvider.getInstance().getMapper();
+    private CommonUtils commonUtils = CommonUtils.getInstance();
+    private String runId = null;
 
     @Override
     public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
-        System.out.println("Custom TestNG Report:");
-        testRunStatus.setRunId(UUID.randomUUID());
-        testRunStatus.setDescription("description should be tight to test pipeline");
-        testRunStatus.setExecutionStartTime(LocalDateTime.now().toString());
-        testRunStatus.setEnv(config.env());
-
+        runId = commonUtils.generateRunId();
+        String runDesc = "Run description can be set as env var";
+        String execStartTime = LocalDateTime.now().toString();
         for (ISuite suite : suites) {
-            System.out.println("Suite Name: " + suite.getName());
+            logger.info("Processing report for suite: {}", suite.getName());
             TestSuiteStatus tss = new TestSuiteStatus();
-
             suite.getResults().forEach((key, result) -> {
+                tss.setRunId(runId);
+                tss.setDescription(runDesc);
+                tss.setEnv(config.env());
                 tss.setStartDate(result.getTestContext().getStartDate().toString());
                 tss.setStartDate(result.getTestContext().getEndDate().toString());
                 tss.setSuiteName(result.getTestContext().getName());
                 tss.setTestPassed(result.getTestContext().getPassedTests().size());
                 tss.setTestFailed(result.getTestContext().getFailedTests().size());
                 tss.setTestSkipped(result.getTestContext().getSkippedTests().size());
-                List<TestExecResult> testExecResults = new ArrayList<>();
+                tss.setIncludedGroups(result.getTestContext().getIncludedGroups().toString());
+                try {
+                    StatusSender.send(this.mapper.writeValueAsString(tss), config.elasticAppSuites());
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
                 suite.getResults().forEach((suiteName, iSuiteResult) -> {
                     if (iSuiteResult.getTestContext().getPassedTests().size() > 0) {
                         Iterator<ITestResult> trIterator = iSuiteResult.getTestContext().getPassedTests().getAllResults().iterator();
-                        this.setTestCaseStatus(testExecResults, trIterator, ITestStatus.PASS);
+                        this.setTestCaseStatus(trIterator, ITestStatus.PASS);
 
                     }
                     if (iSuiteResult.getTestContext().getFailedTests().size() > 0) {
                         Iterator<ITestResult> trIterator = iSuiteResult.getTestContext().getFailedTests().getAllResults().iterator();
-                        this.setTestCaseStatus(testExecResults, trIterator, ITestStatus.FAIL);
+                        this.setTestCaseStatus(trIterator, ITestStatus.FAIL);
 
                     }
                     if (iSuiteResult.getTestContext().getSkippedTests().size() > 0) {
                         Iterator<ITestResult> trIterator = iSuiteResult.getTestContext().getFailedTests().getAllResults().iterator();
-                        this.setTestCaseStatus(testExecResults, trIterator, ITestStatus.SKIPPED);
+                        this.setTestCaseStatus(trIterator, ITestStatus.SKIPPED);
 
                     }
                 });
-                tss.setTestExecResults(testExecResults);
 
             });
-            this.testSuiteStatusList.add(tss);
-        }
-        this.testRunStatus.setTestSuiteStatuses(this.testSuiteStatusList);
-        try {
-            StatusSender.send(this.mapper.writeValueAsString(testRunStatus));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
         }
     }
 
-    private List<TestExecResult> setTestCaseStatus(List<TestExecResult> testExecResults, Iterator<ITestResult> trIterator, ITestStatus iTestStatus) {
+    //iterates over list of test results and sends them to elastic
+    private void setTestCaseStatus(Iterator<ITestResult> trIterator, ITestStatus iTestStatus) {
+        TestExecResult tcs = null;
         while (trIterator.hasNext()) {
-            TestExecResult tcs = new TestExecResult();
+            tcs = new TestExecResult();
+            tcs.setRunId(runId);
             ITestResult iTestResult = trIterator.next();
             tcs.setDescription(iTestResult.getMethod().getDescription());
             tcs.setTestName(iTestResult.getName());
@@ -103,8 +105,11 @@ public class CustomRunReporter implements IReporter {
             if (iTestResult.getTestContext().getIncludedGroups().length > 0) {
                 tcs.setGroup(org.apache.commons.lang.StringUtils.join(iTestResult.getTestContext().getIncludedGroups(), ' '));
             }
-            testExecResults.add(tcs);
         }
-        return testExecResults;
+        try {
+            StatusSender.send(this.mapper.writeValueAsString(tcs), config.elasticAppTestCases());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 }

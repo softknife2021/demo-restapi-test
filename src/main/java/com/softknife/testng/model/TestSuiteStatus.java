@@ -3,7 +3,6 @@ package com.softknife.testng.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 
 /**
  * @author amatsaylo on 2/24/25
@@ -13,12 +12,15 @@ import java.util.List;
 @Getter
 public class TestSuiteStatus {
 
+    private String runId;
+    private String description;
     private String suiteName;
+    private String env;
     private Integer testPassed;
     private Integer testFailed;
     private Integer testSkipped;
     private String startDate;
     private String getEndDate;
-    private List<TestExecResult> TestExecResults;
+    private String includedGroups;
 
 }

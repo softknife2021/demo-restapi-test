@@ -80,7 +80,7 @@ public class ElasticSearchListener implements ITestListener {
                 this.testExecResult.setBuildId(config.buildId());
             }
             try {
-                StatusSender.send(this.mapper.writeValueAsString(testExecResult));
+                StatusSender.send(this.mapper.writeValueAsString(testExecResult), config.elasticAppTestCases());
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
