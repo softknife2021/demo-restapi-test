@@ -30,12 +30,13 @@ public class CustomTestReporter implements IReporter {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private TestConfig config = ConfigProvider.getInstance().getGlobalConfig();
-    private ObjectMapper mapper = ConfigProvider.getInstance().getMapper();
+    private ObjectMapper mapper = null;
     private CommonUtils commonUtils = CommonUtils.getInstance();
     private String runId = null;
 
     @Override
     public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
+        this.mapper = ConfigProvider.getInstance().getMapper();
         runId = commonUtils.generateRunId();
         String runDesc = "Run description can be set as env var";
         String execStartTime = LocalDateTime.now().toString();
