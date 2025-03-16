@@ -15,6 +15,7 @@ public class TestSuiteStatus {
     private String runId;
     private String description;
     private String suiteName;
+    private String executionTime;
     private String env;
     private Integer testPassed;
     private Integer testFailed;
