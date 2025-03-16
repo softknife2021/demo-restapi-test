@@ -72,6 +72,6 @@ public interface TestConfig extends Config {
     @Key("elastic.app.suite")
     String elasticAppSuites();
 
-    @Key("elastic.app.testcases")
+    @Key("elastic.app.testcase")
     String elasticAppTestCases();
 }

@@ -106,11 +106,11 @@ public class CustomTestReporter implements IReporter {
             if (iTestResult.getTestContext().getIncludedGroups().length > 0) {
                 tcs.setGroup(org.apache.commons.lang.StringUtils.join(iTestResult.getTestContext().getIncludedGroups(), ' '));
             }
-        }
-        try {
-            StatusSender.send(this.mapper.writeValueAsString(tcs), config.elasticAppTestCases());
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            try {
+                StatusSender.send(this.mapper.writeValueAsString(tcs), config.elasticAppTestCases());
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
