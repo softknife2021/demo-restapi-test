@@ -10,13 +10,9 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class TestSuiteStatus {
+public class TestSuiteStatus extends BaseCustomReport {
 
-    private String runId;
-    private String description;
     private String suiteName;
-    private String executionTime;
-    private String env;
     private Integer testPassed;
     private Integer testFailed;
     private Integer testSkipped;

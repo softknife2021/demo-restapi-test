@@ -72,7 +72,7 @@ public class ElasticSearchListener implements ITestListener {
                 this.testExecResult.setParameters(iTestResult.getParameters()[0].toString());
             }
             if(status.equals(ITestStatus.FAIL)){
-                this.testExecResult.setError(iTestResult.getThrowable().getLocalizedMessage());
+                this.testExecResult.setAssertError(iTestResult.getThrowable().getLocalizedMessage());
             }
             if(StringUtils.isNotBlank(config.buildId())){
                 this.testExecResult.setBuildUrl(config.buildUrl());

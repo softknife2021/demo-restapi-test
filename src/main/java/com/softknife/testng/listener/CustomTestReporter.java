@@ -98,14 +98,14 @@ public class CustomTestReporter implements IReporter {
         tcs.setStatus(iTestStatus);
         tcs.setGroup(Arrays.toString( iTestResult.getTestContext().getIncludedGroups()).replaceAll("^.|.$", ""));
 
+        if (iTestStatus.equals(ITestStatus.PASS)) {
+            tcs.setStatus(ITestStatus.PASS);
+        }
         if (iTestStatus.equals(ITestStatus.FAIL)) {
-            tcs.setError(iTestResult.getThrowable() != null ? iTestResult.getThrowable().getLocalizedMessage() : "Unknown error");
+            tcs.setAssertError(iTestResult.getThrowable() != null ? iTestResult.getThrowable().getLocalizedMessage() : "Unknown error");
         }
         if (iTestStatus.equals(ITestStatus.SKIPPED)) {
-            tcs.setError(iTestResult.getSkipCausedBy() != null ? iTestResult.getSkipCausedBy().toString() : "Unknown skip reason");
-        }
-        if (iTestResult.getTestContext().getIncludedGroups().length > 0) {
-            tcs.setGroup(String.join(" ", iTestResult.getTestContext().getIncludedGroups()));
+            tcs.setAssertError(iTestResult.getSkipCausedBy() != null ? iTestResult.getSkipCausedBy().toString() : "Unknown skip reason");
         }
 
         return tcs;
