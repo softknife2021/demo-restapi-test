@@ -23,6 +23,7 @@ import org.testng.xml.XmlSuite;
 
 import java.lang.invoke.MethodHandles;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class CustomTestReporter implements IReporter {
                 tss.setTestPassed(result.getTestContext().getPassedTests().size());
                 tss.setTestFailed(result.getTestContext().getFailedTests().size());
                 tss.setTestSkipped(result.getTestContext().getSkippedTests().size());
-                tss.setIncludedGroups(result.getTestContext().getIncludedGroups().toString());
+                tss.setIncludedGroups(Arrays.toString( result.getTestContext().getIncludedGroups()).replaceAll("^.|.$", ""));
                 try {
                     logger.info(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(tss));
                     StatusSender.send(this.mapper.writeValueAsString(tss), config.elasticAppSuites());
@@ -95,6 +96,7 @@ public class CustomTestReporter implements IReporter {
         tcs.setEndDate(iTestResult.getTestContext().getEndDate().toString());
         tcs.setExecutionTime(LocalDateTime.now().toString());
         tcs.setStatus(iTestStatus);
+        tcs.setGroup(Arrays.toString( iTestResult.getTestContext().getIncludedGroups()).replaceAll("^.|.$", ""));
 
         if (iTestStatus.equals(ITestStatus.FAIL)) {
             tcs.setError(iTestResult.getThrowable() != null ? iTestResult.getThrowable().getLocalizedMessage() : "Unknown error");
