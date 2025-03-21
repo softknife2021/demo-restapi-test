@@ -61,58 +61,51 @@ public class CustomTestReporter implements IReporter {
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
-                suite.getResults().forEach((suiteName, iSuiteResult) -> {
-                    logger.info("Processing report for testcase: {}", result.getTestContext().getName());
-                    if (iSuiteResult.getTestContext().getPassedTests().size() > 0) {
-                        Iterator<ITestResult> trIterator = iSuiteResult.getTestContext().getPassedTests().getAllResults().iterator();
-                        this.setTestCaseStatus(trIterator, ITestStatus.PASS);
-
-                    }
-                    if (iSuiteResult.getTestContext().getFailedTests().size() > 0) {
-                        Iterator<ITestResult> trIterator = iSuiteResult.getTestContext().getFailedTests().getAllResults().iterator();
-                        this.setTestCaseStatus(trIterator, ITestStatus.FAIL);
-
-                    }
-                    if (iSuiteResult.getTestContext().getSkippedTests().size() > 0) {
-                        Iterator<ITestResult> trIterator = iSuiteResult.getTestContext().getFailedTests().getAllResults().iterator();
-                        this.setTestCaseStatus(trIterator, ITestStatus.SKIPPED);
-
-                    }
-                });
+                logger.info("Processing report for testcase: {}", result.getTestContext().getName());
+                processTestResults(result.getTestContext().getPassedTests().getAllResults().iterator(), ITestStatus.PASS);
+                processTestResults(result.getTestContext().getFailedTests().getAllResults().iterator(), ITestStatus.FAIL);
+                processTestResults(result.getTestContext().getSkippedTests().getAllResults().iterator(), ITestStatus.SKIPPED);
 
             });
         }
     }
 
-    //iterates over list of test results and sends them to elastic
-    private void setTestCaseStatus(Iterator<ITestResult> trIterator, ITestStatus iTestStatus) {
-        TestExecResult tcs = null;
+
+    private void processTestResults(Iterator<ITestResult> trIterator, ITestStatus iTestStatus) {
         while (trIterator.hasNext()) {
-            tcs = new TestExecResult();
-            tcs.setRunId(runId);
             ITestResult iTestResult = trIterator.next();
-            tcs.setDescription(iTestResult.getMethod().getDescription());
-            tcs.setTestName(iTestResult.getName());
-            tcs.setEnv(this.config.env());
-            tcs.setStartDate(iTestResult.getTestContext().getStartDate().toString());
-            tcs.setEndDate(iTestResult.getTestContext().getEndDate().toString());
-            tcs.setGroup(iTestResult.getTestContext().getIncludedGroups().toString());
-            tcs.setExecutionTime(LocalDateTime.now().toString());
-            tcs.setStatus(iTestStatus);
-            if (iTestStatus.equals(ITestStatus.FAIL)) {
-                tcs.setError(iTestResult.getThrowable().getLocalizedMessage());
-            }
-            if (iTestStatus.equals(ITestStatus.SKIPPED)) {
-                tcs.setError(iTestResult.getSkipCausedBy().toString());
-            }
-            if (iTestResult.getTestContext().getIncludedGroups().length > 0) {
-                tcs.setGroup(org.apache.commons.lang.StringUtils.join(iTestResult.getTestContext().getIncludedGroups(), ' '));
-            }
+            logger.info("Processing report for testcase: {}", iTestResult.getName());
+            TestExecResult tcs = createTestExecResult(iTestResult, iTestStatus);
             try {
                 StatusSender.send(this.mapper.writeValueAsString(tcs), config.elasticAppTestCases());
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                logger.error("Failed to serialize or send TestExecResult", e);
             }
         }
+    }
+
+    //iterates over list of test results and sends them to elastic
+    private TestExecResult createTestExecResult(ITestResult iTestResult, ITestStatus iTestStatus) {
+        TestExecResult tcs = new TestExecResult();
+        tcs.setRunId(runId);
+        tcs.setDescription(iTestResult.getMethod().getDescription());
+        tcs.setTestName(iTestResult.getName());
+        tcs.setEnv(this.config.env());
+        tcs.setStartDate(iTestResult.getTestContext().getStartDate().toString());
+        tcs.setEndDate(iTestResult.getTestContext().getEndDate().toString());
+        tcs.setExecutionTime(LocalDateTime.now().toString());
+        tcs.setStatus(iTestStatus);
+
+        if (iTestStatus.equals(ITestStatus.FAIL)) {
+            tcs.setError(iTestResult.getThrowable() != null ? iTestResult.getThrowable().getLocalizedMessage() : "Unknown error");
+        }
+        if (iTestStatus.equals(ITestStatus.SKIPPED)) {
+            tcs.setError(iTestResult.getSkipCausedBy() != null ? iTestResult.getSkipCausedBy().toString() : "Unknown skip reason");
+        }
+        if (iTestResult.getTestContext().getIncludedGroups().length > 0) {
+            tcs.setGroup(String.join(" ", iTestResult.getTestContext().getIncludedGroups()));
+        }
+
+        return tcs;
     }
 }
