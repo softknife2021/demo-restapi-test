@@ -38,7 +38,7 @@ public class HttpClientFactory {
             OkHttpClient client = null;
             if (bearer == ClientType.BEARER) {
                 try {
-                    client = RestClientHelper.getInstance().buildBearerClient(clientConfig.getApiKey());
+                    client = RestClientHelper.getInstance().buildBearerClient(decodePassword(clientConfig));
                 } catch (Exception e) {
                     logger.error("Failed to build bearer http client");
                     e.printStackTrace();

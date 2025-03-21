@@ -12,7 +12,6 @@ import lombok.Setter;
 @Getter
 public class TestSuiteStatus extends BaseCustomReport {
 
-    private String suiteName;
     private Integer testPassed;
     private Integer testFailed;
     private Integer testSkipped;

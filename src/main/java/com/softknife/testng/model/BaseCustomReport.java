@@ -20,5 +20,6 @@ public abstract class BaseCustomReport {
     private String buildJobName;
     private String buildId;
     private String buildUrl;
+    private String suiteName;
 
 }
