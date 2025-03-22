@@ -23,6 +23,8 @@ import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.testng.Assert.assertEquals;
+
 /**
  * @author Sasha Matsaylo on 9/12/21
  * @project demo-restapi-test
@@ -54,7 +56,7 @@ public class RestApiDemoTest {
         HttpRestRequest httpRestRequest = new HttpRestRequest(sar.getHttpMethod(), sar.getResourcePath());
         httpRestRequest.setRequestBody(result);
         Response response = RestClientHelper.getInstance().executeRequest(this.okHttpClient, httpRestRequest);
-        Assert.assertEquals(response.code(), 200);
+        assertEquals(response.code(), 200);
         String body = response.body().string();
         this.petId = JsonPath.read(body, "$.id");
         Assert.assertTrue(Integer.class.isInstance(this.petId), "Expected pet id to be a valid number");
@@ -70,7 +72,7 @@ public class RestApiDemoTest {
         HttpRestRequest httpRestRequest = new HttpRestRequest(sar.getHttpMethod(), sar.getResourcePath());
         httpRestRequest.setUrlParams(urlParams);
         Response response = RestClientHelper.getInstance().executeRequest(this.okHttpClient, httpRestRequest);
-        Assert.assertEquals(response.code(), 200, "Expected successful response");
+        assertEquals(response.code(), 200, "Expected successful response");
         int actualValue = JsonPath.read(response.body().string(), "$.id");
         this.provider.getGlobalConfig().messageAssertNotEqual(actualValue, this.petId);
     }
@@ -85,7 +87,7 @@ public class RestApiDemoTest {
         HttpRestRequest httpRestRequest = new HttpRestRequest(sar.getHttpMethod(), sar.getResourcePath());
         httpRestRequest.setUrlParams(urlParams);
         Response response = RestClientHelper.getInstance().executeRequest(this.okHttpClient, httpRestRequest);
-        Assert.assertEquals(response.code(), 200, "Expected successful response");
+        assertEquals(response.code(), 200, "Expected successful response");
         int actualValue = JsonPath.read(response.body().string(), "$.id");
         this.provider.getGlobalConfig().messageAssertNotEqual(actualValue, this.petId);
     }
@@ -100,7 +102,7 @@ public class RestApiDemoTest {
         HttpRestRequest httpRestRequest = new HttpRestRequest(sar.getHttpMethod(), sar.getResourcePath());
         httpRestRequest.setUrlParams(urlParams);
         Response response = RestClientHelper.getInstance().executeRequest(this.okHttpClient, httpRestRequest);
-        Assert.assertEquals(response.code(), 200, "Expected successful response");
+        assertEquals(response.code(), 200, "Expected successful response");
         int actualValue = JsonPath.read(response.body().string(), "$.id");
         this.provider.getGlobalConfig().messageAssertNotEqual(actualValue, this.petId);
     }
@@ -116,15 +118,15 @@ public class RestApiDemoTest {
         httpRestRequest.setUrlParams(urlParams);
         Response response = RestClientHelper.getInstance().executeRequest(this.okHttpClient, httpRestRequest);
         int fakeExpected = 33;
-        Assert.assertEquals(this.petId, fakeExpected, this.provider.getGlobalConfig().messageAssertNotEqual(this.petId, fakeExpected));
+        assertEquals(this.petId, fakeExpected, this.provider.getGlobalConfig().messageAssertNotEqual(this.petId, fakeExpected));
     }
 
-    @Test(dependsOnMethods = "add_pet", description = "this test should fail", groups = {"smoke"})
+    @Test(dependsOnMethods = "add_pet", description = "this test should fail", groups = {"functional"})
     private void pet_should_fail() throws RecordNotFound, IOException {
-        Assert.assertTrue(1 == 0);
+        assertEquals(0, 1);
     }
 
-    @Test(dependsOnMethods = "pet_should_fail", description = "this test should be skipped", groups = {"smoke"})
+    @Test(dependsOnMethods = "pet_should_fail", description = "this test should be skipped", groups = {"functional"})
     private void pet_should_be_skipped() throws RecordNotFound, IOException {
     }
 

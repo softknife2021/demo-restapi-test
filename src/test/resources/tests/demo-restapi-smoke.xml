@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
-<suite name="Demo rest api tests">
+<suite name="Demo rest api smoke">
     <listeners>
         <listener class-name="com.softknife.testng.listener.NoTrace"></listener>
 <!--        <listener class-name="com.softknife.testng.listener.ElasticSearchListener"></listener>-->
@@ -9,8 +9,7 @@
     <test name="demo pet store api test">
         <groups>
             <run>
-                <include name="functional"/>
-                <include name="security"/>
+                <include name="smoke"/>
             </run>
         </groups>
         <classes>
