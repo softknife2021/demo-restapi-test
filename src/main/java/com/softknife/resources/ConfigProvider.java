@@ -44,6 +44,7 @@ public class ConfigProvider {
     private ConfigProvider(){
         this.config = ConfigFactory.create(TestConfig.class, System.getProperties(), System.getenv());
         this.extension = config.templateExtension();
+        prepareMapper();
     }
 
     public static synchronized ConfigProvider getInstance(){
@@ -70,7 +71,6 @@ public class ConfigProvider {
             logger.info("Initializing resources");
             prepareSwaggerDescriptor();
             prepareTemplateManager();
-            prepareMapper();
             prepareHttpClients();
             isInitialized = true;
         }

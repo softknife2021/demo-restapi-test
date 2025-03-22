@@ -1,6 +1,5 @@
-package com.softknife.testng.model;
+package com.softknife.testng.listener.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,4 +1,4 @@
-package com.softknife.testng.model;
+package com.softknife.testng.listener.model;
 
 import lombok.Getter;
 import lombok.Setter;

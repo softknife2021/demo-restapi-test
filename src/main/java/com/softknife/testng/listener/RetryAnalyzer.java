@@ -1,11 +1,9 @@
 package com.softknife.testng.listener;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
-
 import java.lang.invoke.MethodHandles;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -16,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class RetryAnalyzer implements IRetryAnalyzer {
 
-    private static int MAX_RETRY_COUNT = 1;
+    private static int MAX_RETRY_COUNT = 3;
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     AtomicInteger count = new AtomicInteger(MAX_RETRY_COUNT);

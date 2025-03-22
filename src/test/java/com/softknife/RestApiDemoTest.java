@@ -9,6 +9,7 @@ import com.softknife.resources.ConfigProvider;
 import com.restbusters.rest.client.RestClientHelper;
 import com.restbusters.rest.model.HttpRestRequest;
 import com.restbusters.testrails.integration.services.testrail.RailsMetaData;
+import com.softknife.testng.listener.RetryAnalyzer;
 import freemarker.template.TemplateException;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
@@ -121,7 +122,7 @@ public class RestApiDemoTest {
         assertEquals(this.petId, fakeExpected, this.provider.getGlobalConfig().messageAssertNotEqual(this.petId, fakeExpected));
     }
 
-    @Test(dependsOnMethods = "add_pet", description = "this test should fail", groups = {"functional"})
+    @Test(retryAnalyzer = RetryAnalyzer.class, dependsOnMethods = "add_pet", description = "this test should fail", groups = {"functional"})
     private void pet_should_fail() throws RecordNotFound, IOException {
         assertEquals(0, 1);
     }
