@@ -88,6 +88,7 @@ public class CustomTestReporter implements IReporter {
     private TestExecResult createTestExecResult(ITestResult iTestResult, ITestStatus iTestStatus) {
         TestExecResult tcs = new TestExecResult();
         tcs.setRunId(runId);
+        tcs.setPipeLineName(this.config.pipeLineName());
         tcs.setSuiteName(iTestResult.getTestContext().getSuite().getName());
         tcs.setDescription(iTestResult.getMethod().getDescription());
         tcs.setTestName(iTestResult.getName());

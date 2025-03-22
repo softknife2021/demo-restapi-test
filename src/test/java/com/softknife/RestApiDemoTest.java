@@ -16,6 +16,7 @@ import okhttp3.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -24,6 +25,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Map;
 
+import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.testng.Assert.assertEquals;
 
 /**
@@ -37,6 +39,7 @@ public class RestApiDemoTest {
     private OkHttpClient okHttpClient;
     private TemplateManager tm;
     private int petId;
+    private final String addPetBody = "addPetBody";
 
     @BeforeClass(alwaysRun = true)
     private void setUP() {
@@ -49,7 +52,7 @@ public class RestApiDemoTest {
 
     @Test(groups = {"smoke"}, description = "create pet should always pass")
     @RailsMetaData(testCaseId = 120)
-    private void add_pet() throws RecordNotFound, IOException, TemplateException {
+    private void add_pet(ITestContext context) throws RecordNotFound, IOException, TemplateException {
         String result = this.tm.processTemplateWithJsonInput("add-pet", "0.1");
 
         SwaggerApiResource sar = SwaggerApiResourceFilter.fetchApiResource(this.provider.getSwaggerDescriptors(),
@@ -59,8 +62,25 @@ public class RestApiDemoTest {
         Response response = RestClientHelper.getInstance().executeRequest(this.okHttpClient, httpRestRequest);
         assertEquals(response.code(), 200);
         String body = response.body().string();
+        context.setAttribute(this.addPetBody, body);
         this.petId = JsonPath.read(body, "$.id");
         Assert.assertTrue(Integer.class.isInstance(this.petId), "Expected pet id to be a valid number");
+    }
+
+    @Test(groups = {"smoke"}, description = "validate addPet response body with HemCrest", dependsOnMethods = "add_pet")
+    private void add_pet_assertJ(ITestContext context) {
+        logger.info("HemeCrest validation starting: ");
+        String expectedName = JsonPath.read(context.getAttribute(this.addPetBody).toString(), "$.name");
+        assertThatJson(context.getAttribute(this.addPetBody).toString())
+                .isObject()
+                .containsEntry("id", 1)
+                .containsEntry("name", "ivaFromInput")
+                .containsKey("category")
+                .node("category").isObject()
+                .containsEntry("id", 12)
+                .containsEntry("name", "categoryName1");
+        logger.info("Finished assertJ good stuff");
+
     }
 
     @Test(dependsOnMethods = "add_pet", description = "get by id should always pass functional", groups = {"functional"})

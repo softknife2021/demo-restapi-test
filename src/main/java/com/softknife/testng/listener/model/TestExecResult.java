@@ -13,4 +13,5 @@ public class TestExecResult extends BaseCustomReport {
     private String testName;
     private ITestStatus status;
     private String group;
+    private String pipeLineName;
 }

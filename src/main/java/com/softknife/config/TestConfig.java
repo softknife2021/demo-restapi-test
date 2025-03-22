@@ -17,6 +17,9 @@ public interface TestConfig extends Config {
     @DefaultValue("${DEMO_DEPLOY_ENV}")
     String env();
 
+    @DefaultValue("${PIPELINE_NAME}")
+    String pipeLineName();
+
     @DefaultValue("${java.home}")
     String javaHome();
 
