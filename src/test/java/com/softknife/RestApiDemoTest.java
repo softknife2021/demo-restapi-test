@@ -67,7 +67,7 @@ public class RestApiDemoTest {
         Assert.assertTrue(Integer.class.isInstance(this.petId), "Expected pet id to be a valid number");
     }
 
-    @Test(groups = {"smoke"}, description = "validate addPet response body with HemCrest", dependsOnMethods = "add_pet")
+    @Test(groups = {"smoke"}, description = "validate addPet response body with AsserJ", dependsOnMethods = "add_pet")
     private void add_pet_assertJ(ITestContext context) {
         logger.info("HemeCrest validation starting: ");
         String expectedName = JsonPath.read(context.getAttribute(this.addPetBody).toString(), "$.name");
