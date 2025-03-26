@@ -110,7 +110,6 @@ public class CustomTestReporter implements IReporter {
         if (iTestStatus.equals(ITestStatus.SKIPPED)) {
             tcs.setAssertError(iTestResult.getSkipCausedBy() != null ? iTestResult.getSkipCausedBy().toString() : "Unknown skip reason");
         }
-
         return tcs;
     }
 }
