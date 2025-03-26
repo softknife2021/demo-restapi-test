@@ -97,6 +97,7 @@ public class CustomTestReporter implements IReporter {
         tcs.setEndDate(iTestResult.getTestContext().getEndDate().toString());
         tcs.setExecutionTime(LocalDateTime.now().toString());
         tcs.setStatus(iTestStatus);
+        tcs.setWasRetried(iTestResult.wasRetried());
         tcs.setGroup(Arrays.toString( iTestResult.getTestContext().getIncludedGroups()).replaceAll("^.|.$", ""));
 
         if (iTestStatus.equals(ITestStatus.PASS)) {

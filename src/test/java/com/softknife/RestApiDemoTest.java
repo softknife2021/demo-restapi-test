@@ -119,7 +119,7 @@ public class RestApiDemoTest {
         this.provider.getGlobalConfig().messageAssertNotEqual(actualValue, this.petId);
     }
 
-    @Test(dependsOnMethods = "add_pet", description = "functional get by id should always pass", groups = {"smoke"})
+    @Test(dependsOnMethods = "add_pet", description = "functional get by id should always pass", groups = {"smoke"}, retryAnalyzer = RetryAnalyzer.class)
     @RailsMetaData(testCaseId = 121)
     private void find_pet_by_id() throws RecordNotFound, IOException {
         SwaggerApiResource sar = SwaggerApiResourceFilter.fetchApiResource(this.provider.getSwaggerDescriptors(),

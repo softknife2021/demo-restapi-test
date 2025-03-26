@@ -14,4 +14,5 @@ public class TestExecResult extends BaseCustomReport {
     private ITestStatus status;
     private String group;
     private String pipeLineName;
+    private boolean wasRetried;
 }
