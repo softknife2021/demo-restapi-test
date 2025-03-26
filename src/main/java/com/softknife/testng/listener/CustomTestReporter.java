@@ -55,12 +55,12 @@ public class CustomTestReporter implements IReporter {
                 tss.setTestFailed(result.getTestContext().getFailedTests().size());
                 tss.setTestSkipped(result.getTestContext().getSkippedTests().size());
                 tss.setIncludedGroups(Arrays.toString( result.getTestContext().getIncludedGroups()).replaceAll("^.|.$", ""));
-//                try {
-//                    logger.info(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(tss));
-//                    StatusSender.send(this.mapper.writeValueAsString(tss), config.elasticAppSuites());
-//                } catch (JsonProcessingException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    logger.info(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(tss));
+                    StatusSender.send(this.mapper.writeValueAsString(tss), config.elasticAppSuites());
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
                 logger.info("Processing report for testcase: {}", result.getTestContext().getName());
                 processTestResults(result.getTestContext().getPassedTests().getAllResults().iterator(), ITestStatus.PASS);
                 processTestResults(result.getTestContext().getFailedTests().getAllResults().iterator(), ITestStatus.FAIL);

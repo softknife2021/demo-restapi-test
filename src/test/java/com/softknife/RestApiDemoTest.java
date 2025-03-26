@@ -5,6 +5,7 @@ import com.restbusters.data.templating.TemplateManager;
 import com.restbusters.exception.RecordNotFound;
 import com.restbusters.integraton.swagger.SwaggerApiResourceFilter;
 import com.restbusters.integraton.swagger.model.SwaggerApiResource;
+import com.softknife.jassert.JsonAssert;
 import com.softknife.resources.ConfigProvider;
 import com.restbusters.rest.client.RestClientHelper;
 import com.restbusters.rest.model.HttpRestRequest;
@@ -78,8 +79,13 @@ public class RestApiDemoTest {
                 .containsKey("category")
                 .node("category").isObject()
                 .containsEntry("id", 12)
-                .containsEntry("name", "categoryName1");
+                .containsEntry("name", "categoryName");
         logger.info("Finished assertJ good stuff");
+
+        JsonAssert.assertThat(context.getAttribute(this.addPetBody).toString())
+                .hasField("name", "ivaFromInput")
+                .hasField("category.name", "categoryName");
+
 
     }
 
