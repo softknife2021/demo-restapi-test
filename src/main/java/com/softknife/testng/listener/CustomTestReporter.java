@@ -51,6 +51,7 @@ public class CustomTestReporter implements IReporter {
                 tss.setStartDate(result.getTestContext().getStartDate().toString());
                 tss.setStartDate(result.getTestContext().getEndDate().toString());
                 tss.setSuiteName(result.getTestContext().getSuite().getName());
+                tss.setTotalTestExecuted(result.getTestContext().getSuite().getAllMethods().size());
                 tss.setTestPassed(result.getTestContext().getPassedTests().size());
                 tss.setTestFailed(result.getTestContext().getFailedTests().size());
                 tss.setTestSkipped(result.getTestContext().getSkippedTests().size());

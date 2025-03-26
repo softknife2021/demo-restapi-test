@@ -18,5 +18,5 @@ public class TestSuiteStatus extends BaseCustomReport {
     private String startDate;
     private String getEndDate;
     private String includedGroups;
-
+    private Integer totalTestExecuted;
 }
