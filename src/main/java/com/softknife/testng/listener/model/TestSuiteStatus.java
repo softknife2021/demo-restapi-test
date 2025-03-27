@@ -3,8 +3,6 @@ package com.softknife.testng.listener.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
-
 
 /**
  * @author amatsaylo on 2/24/25

@@ -14,7 +14,6 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import java.lang.invoke.MethodHandles;
-import java.time.LocalDateTime;
 
 public class ElasticSearchListener implements ITestListener {
 

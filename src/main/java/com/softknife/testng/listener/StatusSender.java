@@ -1,7 +1,5 @@
 package com.softknife.testng.listener;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restbusters.resource.GlobalResourceManager;
 import com.restbusters.rest.client.RestClientHelper;
 import com.restbusters.rest.model.HttpRestRequest;
 import com.softknife.config.TestConfig;

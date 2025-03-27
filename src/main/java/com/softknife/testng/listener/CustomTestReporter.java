@@ -21,8 +21,6 @@ import org.testng.ITestResult;
 import org.testng.xml.XmlSuite;
 
 import java.lang.invoke.MethodHandles;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -55,7 +53,7 @@ public class CustomTestReporter implements IReporter {
                 tss.setTestPassed(result.getTestContext().getPassedTests().size());
                 tss.setTestFailed(result.getTestContext().getFailedTests().size());
                 tss.setTestSkipped(result.getTestContext().getSkippedTests().size());
-                tss.setIncludedGroups(Arrays.toString( result.getTestContext().getIncludedGroups()).replaceAll("^.|.$", ""));
+                tss.setIncludedGroups(Arrays.toString(result.getTestContext().getIncludedGroups()).replaceAll("^.|.$", ""));
                 try {
                     logger.info(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(tss));
                     StatusSender.send(this.mapper.writeValueAsString(tss), config.elasticAppSuites());
