@@ -4,6 +4,7 @@ package com.softknife.resources;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.restbusters.data.templating.TemplateManager;
 import com.restbusters.integraton.swagger.SwaggerManager;
 import com.restbusters.integraton.swagger.model.SwaggerDescriptor;
@@ -82,6 +83,8 @@ public class ConfigProvider {
 
     private void prepareMapper(){
         this.mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
