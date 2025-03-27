@@ -48,7 +48,7 @@ public class CustomTestReporter implements IReporter {
                 tss.setRunId(runId);
                 tss.setDescription(runDesc);
                 tss.setEnv(config.env());
-                tss.setStartDate(result.getTestContext().getStartDate().toInstant());
+                tss.setExecutionTime(result.getTestContext().getStartDate().toInstant());
                 tss.setEndDate(result.getTestContext().getEndDate().toInstant());
                 tss.setSuiteName(result.getTestContext().getSuite().getName());
                 tss.setTotalTestExecuted(result.getTestContext().getSuite().getAllMethods().size());
@@ -94,7 +94,7 @@ public class CustomTestReporter implements IReporter {
         tcs.setDescription(iTestResult.getMethod().getDescription());
         tcs.setTestName(iTestResult.getName());
         tcs.setEnv(this.config.env());
-        tcs.setStartDate(iTestResult.getTestContext().getStartDate().toInstant());
+        tcs.setExecutionTime(iTestResult.getTestContext().getStartDate().toInstant());
         tcs.setEndDate(iTestResult.getTestContext().getEndDate().toInstant());
         tcs.setDuration(this.commonUtils.getDurationInUnit(iTestResult.getTestContext().getStartDate(),
                 iTestResult.getTestContext().getEndDate(), ChronoUnit.MILLIS));

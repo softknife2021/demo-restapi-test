@@ -16,7 +16,6 @@ public abstract class BaseCustomReport {
     private String runId;
     private String description;
     private Instant executionTime;
-    private Instant startDate;
     private Instant endDate;
     private String env;
     private String buildJobName;
