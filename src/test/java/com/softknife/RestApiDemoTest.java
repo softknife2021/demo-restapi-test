@@ -51,6 +51,16 @@ public class RestApiDemoTest {
         this.tm = provider.getTemplateManager();
     }
 
+    @Test(groups = {"logger"}, description = "logger")
+    private void test_logger(){
+        logger.info("This is an INFO log.");
+        logger.warn("This is a WARN log.");
+        logger.error("This is an ERROR log.");
+        logger.debug("This is a DEBUG log.");
+        logger.trace("This is a TRACE log.");
+        Assert.assertTrue(true);
+    }
+
     @Test(groups = {"smoke"}, description = "create pet should always pass")
     @RailsMetaData(testCaseId = 120)
     private void add_pet(ITestContext context) throws RecordNotFound, IOException, TemplateException {

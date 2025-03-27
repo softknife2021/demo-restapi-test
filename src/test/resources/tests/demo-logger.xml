@@ -3,14 +3,11 @@
     <listeners>
         <listener class-name="com.softknife.testng.listener.NoTrace"></listener>
         <listener class-name="com.softknife.testng.listener.TestStatusListener" />
-<!--        <listener class-name="com.softknife.testng.listener.ElasticSearchListener"></listener>-->
-        <listener class-name="com.softknife.testng.listener.CustomTestReporter"></listener>
-        <!--<listener class-name="com.restbusters.testrails.integration.services.testrail.TestRailListener"/>-->
     </listeners>
     <test name="demo pet store api test">
         <groups>
             <run>
-                <include name="smoke"/>
+                <include name="logger"/>
             </run>
         </groups>
         <classes>

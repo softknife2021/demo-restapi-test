@@ -6,7 +6,7 @@
         <listener class-name="com.softknife.testng.listener.CustomTestReporter"></listener>
         <!--<listener class-name="com.restbusters.testrails.integration.services.testrail.TestRailListener"/>-->
     </listeners>
-    <test name="demo pet store api test">
+    <test name="demo pet store api test security">
         <groups>
             <run>
                 <include name="security"/>

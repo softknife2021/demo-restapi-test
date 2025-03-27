@@ -2,11 +2,12 @@
 <suite name="Service Functional">
     <listeners>
         <listener class-name="com.softknife.testng.listener.NoTrace"></listener>
-<!--        <listener class-name="com.softknife.testng.listener.ElasticSearchListener"></listener>-->
+        <listener class-name="com.softknife.testng.listener.TestStatusListener" />
+        <!--<listener class-name="com.softknife.testng.listener.ElasticSearchListener"></listener>-->
         <listener class-name="com.softknife.testng.listener.CustomTestReporter"></listener>
         <!--<listener class-name="com.restbusters.testrails.integration.services.testrail.TestRailListener"/>-->
     </listeners>
-    <test name="demo pet store api test">
+    <test name="demo pet store api test functional">
         <groups>
             <run>
                 <include name="functional"/>
@@ -14,6 +15,7 @@
         </groups>
         <classes>
             <class name="com.softknife.JsonDataTest"/>
+            <class name="com.softknife.RestApiDemoTest"/>
         </classes>
     </test>
 </suite>

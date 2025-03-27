@@ -5,7 +5,7 @@ package com.softknife.testng.listener.model;
  * @project demo-restapi-test
  */
 public enum ITestStatus {
-    SKIPPED,
+    SKIP,
     FAIL,
     PASS
 }

@@ -39,7 +39,7 @@ public class ElasticSearchListener implements ITestListener {
     }
 
     public void onTestSkipped(ITestResult iTestResult) {
-        this.sendStatus(iTestResult,ITestStatus.SKIPPED);
+        this.sendStatus(iTestResult,ITestStatus.SKIP);
     }
 
     public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {

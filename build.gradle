@@ -36,12 +36,13 @@ repositories {
 }
 
 dependencies {
-    // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
-    //implementation 'org.slf4j:slf4j-api:1.7.28'
-    //implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-    //implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha6'
-    testImplementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '2.0.0-alpha6'
+    implementation 'ch.qos.logback:logback-classic:1.4.14'
+    implementation 'ch.qos.logback:logback-core:1.4.14'
+    configurations.all {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+    }
     //looks like test rails lib requires it
     implementation 'com.restbusters:qreasp:0.0.53'
     implementation group: 'com.codepine.api', name: 'testrail-api-java-client', version: '2.0.2'
@@ -59,16 +60,14 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.9.8'
     implementation 'com.datadoghq:datadog-api-client:1.0.0-beta.9'
     //compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
-    implementation('com.jayway.jsonpath:json-path:2.4.0') {
-        exclude group: 'log4j', module: 'log4j'
-        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
-    }
+    implementation('com.jayway.jsonpath:json-path:2.4.0')
     implementation group: 'org.freemarker', name: 'freemarker', version: '2.3.30'
     implementation group: 'com.flipkart.zjsonpatch', name: 'zjsonpatch', version: '0.4.11'
     implementation group: 'com.massisframework', name: 'j-text-utils', version: '0.3.4'
     implementation 'org.testng:testng:7.4.0'
     //testImplementation files('libs/testng-rails-integration-0.0.1.jar')
     implementation 'com.restbusters:testng-rails-integration:0.0.1'
+    implementation 'org.fusesource.jansi:jansi:2.4.0'
     testImplementation 'org.assertj:assertj-core:3.23.1'
     testImplementation 'net.javacrumbs.json-unit:json-unit-assertj:2.36.0'
     // Use TestNG framework, also requires calling com.restbusters.test.useTestNG() below

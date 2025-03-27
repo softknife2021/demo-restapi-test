@@ -65,7 +65,7 @@ public class CustomTestReporter implements IReporter {
                 logger.info("Processing report for testcase: {}", result.getTestContext().getName());
                 processTestResults(result.getTestContext().getPassedTests().getAllResults().iterator(), ITestStatus.PASS);
                 processTestResults(result.getTestContext().getFailedTests().getAllResults().iterator(), ITestStatus.FAIL);
-                processTestResults(result.getTestContext().getSkippedTests().getAllResults().iterator(), ITestStatus.SKIPPED);
+                processTestResults(result.getTestContext().getSkippedTests().getAllResults().iterator(), ITestStatus.SKIP);
 
             });
         }
@@ -107,7 +107,7 @@ public class CustomTestReporter implements IReporter {
         if (iTestStatus.equals(ITestStatus.FAIL)) {
             tcs.setAssertError(iTestResult.getThrowable() != null ? iTestResult.getThrowable().getLocalizedMessage() : "Unknown error");
         }
-        if (iTestStatus.equals(ITestStatus.SKIPPED)) {
+        if (iTestStatus.equals(ITestStatus.SKIP)) {
             tcs.setAssertError(iTestResult.getSkipCausedBy() != null ? iTestResult.getSkipCausedBy().toString() : "Unknown skip reason");
         }
         return tcs;
