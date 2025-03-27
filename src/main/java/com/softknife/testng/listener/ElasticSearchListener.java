@@ -61,7 +61,6 @@ public class ElasticSearchListener implements ITestListener {
             this.testExecResult.setDescription(iTestResult.getMethod().getDescription());
             this.testExecResult.setStatus(status);
             this.testExecResult.setTestName(iTestResult.getTestName());
-            this.testExecResult.setExecutionTime(LocalDateTime.now().toString());
             this.testExecResult.setTestName(iTestResult.getName());
             this.testExecResult.setEnv(ConfigProvider.getInstance().getGlobalConfig().env());
             if(iTestResult.getTestContext().getIncludedGroups().length > 0){

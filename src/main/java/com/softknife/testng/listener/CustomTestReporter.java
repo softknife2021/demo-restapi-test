@@ -21,7 +21,9 @@ import org.testng.ITestResult;
 import org.testng.xml.XmlSuite;
 
 import java.lang.invoke.MethodHandles;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -39,7 +41,6 @@ public class CustomTestReporter implements IReporter {
         this.mapper = ConfigProvider.getInstance().getMapper();
         runId = commonUtils.generateRunId();
         String runDesc = "Run description can be set as env var";
-        String execStartTime = LocalDateTime.now().toString();
         for (ISuite suite : suites) {
             logger.info("Processing report for suite: {}", suite.getName());
             TestSuiteStatus tss = new TestSuiteStatus();
@@ -47,9 +48,8 @@ public class CustomTestReporter implements IReporter {
                 tss.setRunId(runId);
                 tss.setDescription(runDesc);
                 tss.setEnv(config.env());
-                tss.setExecutionTime(LocalDateTime.now().toString());
-                tss.setStartDate(result.getTestContext().getStartDate().toString());
-                tss.setStartDate(result.getTestContext().getEndDate().toString());
+                tss.setStartDate(result.getTestContext().getStartDate().toInstant());
+                tss.setEndDate(result.getTestContext().getEndDate().toInstant());
                 tss.setSuiteName(result.getTestContext().getSuite().getName());
                 tss.setTotalTestExecuted(result.getTestContext().getSuite().getAllMethods().size());
                 tss.setTestPassed(result.getTestContext().getPassedTests().size());
@@ -94,9 +94,10 @@ public class CustomTestReporter implements IReporter {
         tcs.setDescription(iTestResult.getMethod().getDescription());
         tcs.setTestName(iTestResult.getName());
         tcs.setEnv(this.config.env());
-        tcs.setStartDate(iTestResult.getTestContext().getStartDate().toString());
-        tcs.setEndDate(iTestResult.getTestContext().getEndDate().toString());
-        tcs.setExecutionTime(LocalDateTime.now().toString());
+        tcs.setStartDate(iTestResult.getTestContext().getStartDate().toInstant());
+        tcs.setEndDate(iTestResult.getTestContext().getEndDate().toInstant());
+        tcs.setDuration(this.commonUtils.getDurationInUnit(iTestResult.getTestContext().getStartDate(),
+                iTestResult.getTestContext().getEndDate(), ChronoUnit.MILLIS));
         tcs.setStatus(iTestStatus);
         tcs.setWasRetried(iTestResult.wasRetried());
         tcs.setGroup(Arrays.toString( iTestResult.getTestContext().getIncludedGroups()).replaceAll("^.|.$", ""));

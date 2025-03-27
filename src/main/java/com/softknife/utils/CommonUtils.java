@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.UUID;
 
@@ -63,6 +64,20 @@ public class CommonUtils {
         String timestamp = Instant.now().toString(); // ISO 8601 format
         String uniqueSuffix = UUID.randomUUID().toString().substring(0, 6);
         return "run_" + timestamp + "_" + uniqueSuffix;
+    }
+
+    /**
+     * Gets duration between two dates in specific time unit
+     * @param start Start date
+     * @param end End date
+     * @param unit Time unit (ChronoUnit)
+     * @return Duration in specified unit
+     */
+    public long getDurationInUnit(Date start, Date end, ChronoUnit unit) {
+        return unit.between(
+                start.toInstant(),
+                end.toInstant()
+        );
     }
 
 }
