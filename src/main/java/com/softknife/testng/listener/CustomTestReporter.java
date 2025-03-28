@@ -93,6 +93,7 @@ public class CustomTestReporter implements IReporter {
         tcs.setDescription(iTestResult.getMethod().getDescription());
         tcs.setTestName(iTestResult.getName());
         tcs.setEnv(this.config.env());
+        tcs.setDeployVersion(config.deployVersion());
         tcs.setExecutionTime(iTestResult.getTestContext().getStartDate().toInstant());
         tcs.setEndDate(iTestResult.getTestContext().getEndDate().toInstant());
         tcs.setDuration(this.commonUtils.getDurationInUnit(iTestResult.getTestContext().getStartDate(),
