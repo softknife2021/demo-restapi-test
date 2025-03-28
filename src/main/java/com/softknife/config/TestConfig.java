@@ -29,6 +29,9 @@ public interface TestConfig extends Config {
     @DefaultValue("${DEMO_DEPLOY_ENV}")
     String deployEnv();
 
+    @DefaultValue("${DEPLOYED_VERSION}")
+    String deployVersion();
+
     @Key("deploy.request.body.trigger")
     String triggerRequestBody(String manifestId, String submittedBy);
 

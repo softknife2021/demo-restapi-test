@@ -23,5 +23,6 @@ public abstract class BaseCustomReport {
     private String buildUrl;
     private String suiteName;
     private long duration;
+    private String deployVersion;
 
 }

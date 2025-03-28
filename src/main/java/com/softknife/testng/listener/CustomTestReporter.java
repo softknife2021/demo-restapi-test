@@ -46,6 +46,7 @@ public class CustomTestReporter implements IReporter {
                 tss.setRunId(runId);
                 tss.setDescription(runDesc);
                 tss.setEnv(config.env());
+                tss.setDeployVersion(config.deployVersion());
                 tss.setExecutionTime(result.getTestContext().getStartDate().toInstant());
                 tss.setEndDate(result.getTestContext().getEndDate().toInstant());
                 tss.setSuiteName(result.getTestContext().getSuite().getName());
